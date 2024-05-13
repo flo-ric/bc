@@ -1061,16 +1061,6 @@ int VRInterface::update() {
 	XrSpaceLocation grip_locations[HAND_COUNT];
 	XrSpaceLocation aim_locations[HAND_COUNT];
 
-	// Local vars to track position and orientation of controllers
-	irr::core::vector3df vrLeftGripPosition;
-	irr::core::vector3df vrRightGripPosition;
-	irr::core::vector3df vrLeftAimPosition;
-	irr::core::vector3df vrRightAimPosition;
-	irr::core::quaternion vrLeftGripOrientation;
-	irr::core::quaternion vrRightGripOrientation;
-	irr::core::quaternion vrLeftAimOrientation;
-	irr::core::quaternion vrRightAimOrientation;
-
 	for (int i = 0; i < HAND_COUNT; i++) {
 		XrActionStatePose grip_pose_state;
 		grip_pose_state.type = XR_TYPE_ACTION_STATE_POSE;
@@ -1529,6 +1519,47 @@ int VRInterface::update() {
 			smgr->getGUIEnvironment()->drawAll();
 			//set back usual render target
 			driver->setRenderTarget(0, 0); // TODO: Maybe not needed here
+		}
+	}
+
+	// If HUD not shown, control engines and wheel directly with controller movements
+	// We are using the un-transformed positions, i.e. in the user's space, not the world space.
+	if (!showHUD) {
+		if (model->isAzimuthDrive()) {
+			// Azimuth drive mode
+		}
+		else {
+			// Normal engine/wheel mode
+
+			// Left hand for engine controls
+			if (selectState[HAND_LEFT_INDEX]) {
+
+				// Reset 'start' position for controller movement if newly pressed down
+				if (!previousSelectState[HAND_LEFT_INDEX]) {
+					vrLeftGripPositionReference = vrLeftGripPosition;
+					// TODO: Check if tilted to 'left', 'central' or 'right', and set this mode here
+					portEngineReference = model->getPortEngine();
+				}
+				irr::f32 leftHandDeltaZ = vrLeftGripPosition.Z - vrLeftGripPositionReference.Z;
+				//setPortEngine clips to valid range, so don't worry about this here
+				model->setPortEngine(portEngineReference + 10 * leftHandDeltaZ); // TODO: Make sensitivity a parameter?
+
+				// TODO: Add haptic feedback if passing zero position
+			}
+
+			// Right hand for wheel controls
+			if (selectState[HAND_RIGHT_INDEX]) {
+
+				// Reset 'start' position for controller movement if newly pressed down
+				if (!previousSelectState[HAND_RIGHT_INDEX]) {
+					vrRightGripPositionReference = vrRightGripPosition;
+					wheelReference = model->getWheel();
+				}
+				irr::f32 rightHandDeltaX = vrRightGripPosition.X - vrRightGripPositionReference.X;
+				//setWheel clips to valid range, so don't worry about this here
+				model->setWheel(wheelReference + 60 * rightHandDeltaX); // TODO: Make sensitivity a parameter?
+				// TODO: Add haptic feedback if passing zero position?
+			}
 		}
 	}
 
