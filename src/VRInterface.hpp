@@ -152,6 +152,8 @@ private:
     // Reference values to track movement
     irr::core::vector3df vrLeftGripPositionReference;
     irr::core::vector3df vrRightGripPositionReference;
+    bool vrChangingPortEngine;
+    bool vrChangingStbdEngine;
     // Engine settings for these reference positions
     irr::f32 portEngineReference;
     irr::f32 stbdEngineReference;

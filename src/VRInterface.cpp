@@ -1537,14 +1537,37 @@ int VRInterface::update() {
 				// Reset 'start' position for controller movement if newly pressed down
 				if (!previousSelectState[HAND_LEFT_INDEX]) {
 					vrLeftGripPositionReference = vrLeftGripPosition;
-					// TODO: Check if tilted to 'left', 'central' or 'right', and set this mode here
-					portEngineReference = model->getPortEngine();
+					
+					// Check if tilted to 'left', 'central' or 'right', and set this mode here
+					irr::core::vector3df leftGripEulerAngles;
+					vrLeftGripOrientation.toEuler(leftGripEulerAngles);
+					// TODO: Check sign of this, and if +- 10 degrees is enough overlap
+					if (leftGripEulerAngles.Z * irr::core::RADTODEG > -10) {
+						vrChangingPortEngine = true;
+						portEngineReference = model->getPortEngine();
+					} else {
+						vrChangingPortEngine = false;
+					}
+					if (leftGripEulerAngles.Z * irr::core::RADTODEG < 10) {
+						vrChangingStbdEngine = true;
+						stbdEngineReference = model->getStbdEngine();
+					} else {
+						vrChangingStbdEngine = false;
+					}
 				}
+				
 				irr::f32 leftHandDeltaZ = vrLeftGripPosition.Z - vrLeftGripPositionReference.Z;
-				//setPortEngine clips to valid range, so don't worry about this here
-				model->setPortEngine(portEngineReference + 10 * leftHandDeltaZ); // TODO: Make sensitivity a parameter?
 
-				// TODO: Add haptic feedback if passing zero position
+				if (vrChangingPortEngine) {
+					//setPortEngine clips to valid range, so don't worry about this here
+					model->setPortEngine(portEngineReference + 10 * leftHandDeltaZ); // TODO: Make sensitivity a parameter?
+					// TODO: Add haptic feedback if passing zero position
+				}
+				if (vrChangingStbdEngine) {
+					//setStbdEngine clips to valid range, so don't worry about this here
+					model->setStbdEngine(stbdEngineReference + 10 * leftHandDeltaZ); // TODO: Make sensitivity a parameter?
+					// TODO: Add haptic feedback if passing zero position
+				}
 			}
 
 			// Right hand for wheel controls
