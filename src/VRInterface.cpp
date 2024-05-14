@@ -1526,7 +1526,23 @@ int VRInterface::update() {
 	// We are using the un-transformed positions, i.e. in the user's space, not the world space.
 	if (!showHUD) {
 		if (model->isAzimuthDrive()) {
-			// Azimuth drive mode
+			// Azimuth drive mode, just use left and right angles directly
+			if (selectState[HAND_LEFT_INDEX]) {
+				irr::core::vector3df leftGripEulerAngles;
+				vrLeftGripOrientation.toEuler(leftGripEulerAngles);
+				// The 'set' functions will check limits, so don't clamp here
+				model->setPortSchottel(leftGripEulerAngles.Y * irr::core::RADTODEG);
+				// Check if this is the right axis (and order of rotations means it's sensible?)
+				model->setPortThrustLever(leftGripEulerAngle.X * irr::core::RADTODEG / 180); // TODO: This will change name to setPortAzimuthThrustLever when merging other changes
+			}
+			if (selectState[HAND_RIGHT_INDEX]) {
+				irr::core::vector3df rightGripEulerAngles;
+				vrRightGripOrientation.toEuler(rightGripEulerAngles);
+				// The 'set' functions will check limits, so don't clamp here
+				model->setStbdSchottel(rightGripEulerAngles.Y * irr::core::RADTODEG);
+				// Check if this is the right axis (and order of rotations means it's sensible?)
+				model->setStbdThrustLever(rightGripEulerAngle.X * irr::core::RADTODEG / 180); // TODO: This will change name to setStbdAzimuthThrustLever when merging other changes
+			}
 		}
 		else {
 			// Normal engine/wheel mode
