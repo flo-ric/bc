@@ -1533,7 +1533,7 @@ int VRInterface::update() {
 				// The 'set' functions will check limits, so don't clamp here
 				model->setPortSchottel(leftGripEulerAngles.Y * irr::core::RADTODEG);
 				// Check if this is the right axis (and order of rotations means it's sensible?)
-				model->setPortThrustLever(leftGripEulerAngles.X * irr::core::RADTODEG / 180); // TODO: This will change name to setPortAzimuthThrustLever when merging other changes
+				model->setPortAzimuthThrustLever(leftGripEulerAngles.X * irr::core::RADTODEG / 180);
 			}
 			if (selectState[HAND_RIGHT_INDEX]) {
 				irr::core::vector3df rightGripEulerAngles;
@@ -1541,7 +1541,7 @@ int VRInterface::update() {
 				// The 'set' functions will check limits, so don't clamp here
 				model->setStbdSchottel(rightGripEulerAngles.Y * irr::core::RADTODEG);
 				// Check if this is the right axis (and order of rotations means it's sensible?)
-				model->setStbdThrustLever(rightGripEulerAngles.X * irr::core::RADTODEG / 180); // TODO: This will change name to setStbdAzimuthThrustLever when merging other changes
+				model->setStbdAzimuthThrustLever(rightGripEulerAngles.X * irr::core::RADTODEG / 180);
 			}
 		}
 		else {
