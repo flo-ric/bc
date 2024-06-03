@@ -228,9 +228,15 @@ SimulationModel::SimulationModel(irr::IrrlichtDevice* dev,
         rain.load(smgr, camera.getSceneNode(), device);
 
         //Set up 3d engine/wheel controls/visualisation
-        portEngineVisual.load(smgr, ownShip.getSceneNode(), ownShip.getPortEngineControlPosition(), 1.0/ownShip.getScaleFactor(), 0, 0);
-        stbdEngineVisual.load(smgr, ownShip.getSceneNode(), ownShip.getStbdEngineControlPosition(), 1.0/ownShip.getScaleFactor(), 0, 0);
-        wheelVisual.load(smgr, ownShip.getSceneNode(), ownShip.getWheelControlPosition(), 1.0/ownShip.getScaleFactor(), 2, 1);
+        if (isAzimuthDrive()) {
+            portEngineVisual.load(smgr, ownShip.getSceneNode(), ownShip.getPortEngineControlPosition(), 1.0 / ownShip.getScaleFactor(), 1, 2); // 2=schottel base
+            stbdEngineVisual.load(smgr, ownShip.getSceneNode(), ownShip.getStbdEngineControlPosition(), 1.0 / ownShip.getScaleFactor(), 1, 2); // 2=schottel base
+            // TODO: Add schottel lever as child of schottel base
+        } else {
+            portEngineVisual.load(smgr, ownShip.getSceneNode(), ownShip.getPortEngineControlPosition(), 1.0 / ownShip.getScaleFactor(), 0, 0);
+            stbdEngineVisual.load(smgr, ownShip.getSceneNode(), ownShip.getStbdEngineControlPosition(), 1.0 / ownShip.getScaleFactor(), 0, 0);
+            wheelVisual.load(smgr, ownShip.getSceneNode(), ownShip.getWheelControlPosition(), 1.0 / ownShip.getScaleFactor(), 2, 1);
+        }
 
         //make a radar screen, setting parent and offset from own ship
         radarScreen.load(smgr,ownShip.getSceneNode(), ownShip.getScreenDisplayPosition(), ownShip.getScreenDisplaySize(), ownShip.getScreenDisplayTilt());
@@ -1812,9 +1818,15 @@ SimulationModel::~SimulationModel()
         //update the camera position
         camera.update(deltaTime);
         }{ IPROF("Update controls visualisation");
-            portEngineVisual.update(45.0*ownShip.getPortEngine());
-            stbdEngineVisual.update(45.0*ownShip.getStbdEngine());
-            wheelVisual.update(-6.0 * ownShip.getWheel());
+            if (isAzimuthDrive()) {
+                portEngineVisual.update(ownShip.getPortSchottel());
+                stbdEngineVisual.update(ownShip.getStbdSchottel());
+                // TODO: Add port and starboard throttle levers, from getPortAzimuthAngle() etc.
+            } else {
+                portEngineVisual.update(45.0 * ownShip.getPortEngine());
+                stbdEngineVisual.update(45.0 * ownShip.getStbdEngine());
+                wheelVisual.update(-6.0 * ownShip.getWheel());
+            }
         }
         if (radarCalculation.isRadarOn()) {
             { IPROF("Update radar cursor position");
