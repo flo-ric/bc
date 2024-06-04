@@ -1544,7 +1544,7 @@ int VRInterface::update() {
 			}
 			if (selectState[HAND_RIGHT_INDEX]) {
 				// Reset 'start' position for controller movement if newly pressed down
-				if (!previousSelectState[HAND_LEFT_INDEX]) {
+				if (!previousSelectState[HAND_RIGHT_INDEX]) {
 					vrRightGripPositionReference = vrRightGripPosition;
 					stbdSchottelReference = model->getStbdSchottel();
     				stbdAzimuthThrottleReference = model->getStbdAzimuthThrustLever();
