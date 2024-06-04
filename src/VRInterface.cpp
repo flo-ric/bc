@@ -1528,20 +1528,34 @@ int VRInterface::update() {
 		if (model->isAzimuthDrive()) {
 			// Azimuth drive mode, just use left and right angles directly
 			if (selectState[HAND_LEFT_INDEX]) {
-				irr::core::vector3df leftGripEulerAngles;
-				vrLeftGripOrientation.toEuler(leftGripEulerAngles);
+				// Reset 'start' position for controller movement if newly pressed down
+				if (!previousSelectState[HAND_LEFT_INDEX]) {
+					vrLeftGripPositionReference = vrLeftGripPosition;
+					portSchottelReference = model->getPortSchottel();
+    				portAzimuthThrottleReference = model->getPortAzimuthThrustLever();
+				}
+
+				irr::f32 leftHandDeltaZ = vrLeftGripPosition.Z - vrLeftGripPositionReference.Z;
+				irr::f32 leftHandDeltaX = vrLeftGripPosition.X - vrLeftGripPositionReference.X;
+
 				// The 'set' functions will check limits, so don't clamp here
-				model->setPortSchottel(leftGripEulerAngles.Y * irr::core::RADTODEG);
-				// Check if this is the right axis (and order of rotations means it's sensible?)
-				model->setPortAzimuthThrustLever(leftGripEulerAngles.X * irr::core::RADTODEG / 180);
+				model->setPortSchottel(portSchottelReference + 360 * leftHandDeltaX); // TODO: Make sensitivity a parameter?
+				model->setPortAzimuthThrustLever(portAzimuthThrottleReference + 10 * leftHandDeltaZ); // TODO: Make sensitivity a parameter?
 			}
 			if (selectState[HAND_RIGHT_INDEX]) {
-				irr::core::vector3df rightGripEulerAngles;
-				vrRightGripOrientation.toEuler(rightGripEulerAngles);
+				// Reset 'start' position for controller movement if newly pressed down
+				if (!previousSelectState[HAND_LEFT_INDEX]) {
+					vrRightGripPositionReference = vrRightGripPosition;
+					stbdSchottelReference = model->getStbdSchottel();
+    				stbdAzimuthThrottleReference = model->getStbdAzimuthThrustLever();
+				}
+
+				irr::f32 rightHandDeltaZ = vrRightGripPosition.Z - vrRightGripPositionReference.Z;
+				irr::f32 rightHandDeltaX = vrRightGripPosition.X - vrRightGripPositionReference.X;
+
 				// The 'set' functions will check limits, so don't clamp here
-				model->setStbdSchottel(rightGripEulerAngles.Y * irr::core::RADTODEG);
-				// Check if this is the right axis (and order of rotations means it's sensible?)
-				model->setStbdAzimuthThrustLever(rightGripEulerAngles.X * irr::core::RADTODEG / 180);
+				model->setStbdSchottel(stbdSchottelReference + 360 * rightHandDeltaX); // TODO: Make sensitivity a parameter?
+				model->setStbdAzimuthThrustLever(stbdAzimuthThrottleReference + 10 * rightHandDeltaZ); // TODO: Make sensitivity a parameter?
 			}
 		}
 		else {
