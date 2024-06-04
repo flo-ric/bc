@@ -86,3 +86,8 @@ void ControlVisualiser::update(irr::f32 displayValue)
     }
 
 }
+
+irr::scene::ISceneNode* ControlVisualiser::getSceneNode()
+{
+    return controlNode;
+}

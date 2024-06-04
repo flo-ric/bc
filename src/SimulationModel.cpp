@@ -230,12 +230,13 @@ SimulationModel::SimulationModel(irr::IrrlichtDevice* dev,
         //Set up 3d engine/wheel controls/visualisation
         if (isAzimuthDrive()) {
             portEngineVisual.load(smgr, ownShip.getSceneNode(), ownShip.getPortEngineControlPosition(), 1.0 / ownShip.getScaleFactor(), 1, 2); // 2=schottel base
-            stbdEngineVisual.load(smgr, ownShip.getSceneNode(), ownShip.getStbdEngineControlPosition(), 1.0 / ownShip.getScaleFactor(), 1, 2); // 2=schottel base
-            // TODO: Add schottel lever as child of schottel base
+            stbdEngineVisual.load(smgr, ownShip.getSceneNode(), ownShip.getStbdEngineControlPosition(), 1.0 / ownShip.getScaleFactor(), 1, 2);
+            portAzimuthThrottleVisual.load(smgr, portEngineVisual.getSceneNode(), irr::core::vector3df(0,0,0), 1.0, 0, 3); // 3 = schottel lever
+            stbdAzimuthThrottleVisual.load(smgr, stbdEngineVisual.getSceneNode(), irr::core::vector3df(0,0,0), 1.0, 0, 3);
         } else {
-            portEngineVisual.load(smgr, ownShip.getSceneNode(), ownShip.getPortEngineControlPosition(), 1.0 / ownShip.getScaleFactor(), 0, 0);
+            portEngineVisual.load(smgr, ownShip.getSceneNode(), ownShip.getPortEngineControlPosition(), 1.0 / ownShip.getScaleFactor(), 0, 0); // 0 = regular throttle
             stbdEngineVisual.load(smgr, ownShip.getSceneNode(), ownShip.getStbdEngineControlPosition(), 1.0 / ownShip.getScaleFactor(), 0, 0);
-            wheelVisual.load(smgr, ownShip.getSceneNode(), ownShip.getWheelControlPosition(), 1.0 / ownShip.getScaleFactor(), 2, 1);
+            wheelVisual.load(smgr, ownShip.getSceneNode(), ownShip.getWheelControlPosition(), 1.0 / ownShip.getScaleFactor(), 2, 1); // 1 = wheel
         }
 
         //make a radar screen, setting parent and offset from own ship
@@ -1821,7 +1822,8 @@ SimulationModel::~SimulationModel()
             if (isAzimuthDrive()) {
                 portEngineVisual.update(ownShip.getPortSchottel());
                 stbdEngineVisual.update(ownShip.getStbdSchottel());
-                // TODO: Add port and starboard throttle levers, from getPortAzimuthAngle() etc.
+                portAzimuthThrottleVisual.update(45 * getPortAzimuthThrustLever());
+                stbdAzimuthThrottleVisual.update(45 * getStbdAzimuthThrustLever());
             } else {
                 portEngineVisual.update(45.0 * ownShip.getPortEngine());
                 stbdEngineVisual.update(45.0 * ownShip.getStbdEngine());
