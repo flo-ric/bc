@@ -1,3 +1,4 @@
+add_compile_options(-Wall -Wpedantic)
 
 add_executable(bridgecommand-mh
     main.cpp

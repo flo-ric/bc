@@ -225,7 +225,7 @@ irr::u32 IniCache::getUIntValue(const std::string& fileName, const std::string& 
     const char *val = value.c_str();
     const char *end = nullptr;
     irr::u32 result = irr::core::strtoul10(val, &end);
-    if (end - val == value.length()) {
+    if ((irr::u32)(end - val) == value.length()) {
         return result;
     }
     else {
@@ -243,7 +243,7 @@ irr::s32 IniCache::getSIntValue(const std::string& fileName, const std::string& 
     const char *val = value.c_str();
     const char *end = nullptr;
     irr::s32 result = irr::core::strtol10(val, &end);
-    if (end - val == value.length()) {
+    if ((irr::u32)(end - val) == value.length()) {
         return result;
     }
     else {
@@ -261,7 +261,7 @@ irr::f32 IniCache::getFloatValue(const std::string& fileName, const std::string&
     const char *val = value.c_str();
     const char *end = nullptr;
     irr::f32 result = irr::core::fast_atof(val, &end);
-    if (end - val == value.length()) {
+    if ((irr::u32)(end - val) == value.length()) {
         return result;
     }
     else {

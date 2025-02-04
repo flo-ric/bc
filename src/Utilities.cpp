@@ -128,7 +128,7 @@ namespace Utilities
         struct tm ts;
         ts = *gmtime(&timestamp);
         char timeBuffer[(4+2*2)+(2*3)+1];
-        snprintf(timeBuffer,15,"%04d%02d%02d%02d%02d%02d",1900+ts.tm_year,ts.tm_mon+1,ts.tm_mday,ts.tm_hour,ts.tm_min,ts.tm_sec);
+        snprintf(timeBuffer,sizeof(struct tm),"%04d%02d%02d%02d%02d%02d",1900+ts.tm_year,ts.tm_mon+1,ts.tm_mday,ts.tm_hour,ts.tm_min,ts.tm_sec);
         return(std::string(timeBuffer));
     }
 

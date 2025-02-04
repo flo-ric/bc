@@ -31,7 +31,7 @@ class Lines
         Lines();
         virtual ~Lines();
         void addLine(SimulationModel* model, bool networkLine = false); // Add a line, which will be undefined
-        void setLineStart(irr::scene::ISceneNode* lineStart, int nodeType, int id, bool networkLine = false, int lineID = -1); //Set the start point of the line (default is most recently added line)
+  void setLineStart(irr::scene::ISceneNode* lineStart, int nodeType, int id, bool networkLine = false, irr::s32 lineID = -1); //Set the start point of the line (default is most recently added line)
         void setLineEnd(irr::scene::ISceneNode* lineEnd, irr::f32 shipMass, int nodeType, int id, bool networkLine = false, int lineID = -1); //Set the end point (default is the most recently added line)
         void clearLine(int lineID, bool networkLine = false);
         void removeLine(int lineID, bool networkLine = false);

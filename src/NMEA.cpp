@@ -51,7 +51,6 @@ NMEA::NMEA(SimulationModel* model, std::string serialPortName, irr::u32 serialBa
     // set up listening thread
     terminateNmeaReceive = 0;
     receivedNmeaMessages = std::vector<std::string>();
-    std::thread* receiveThreadObject = 0;
     receiveThreadObject = new std::thread(&NMEA::ReceiveThread, this, udpListenPortName);
     
     // create send socket
@@ -99,7 +98,8 @@ NMEA::~NMEA()
     terminateNmeaReceiveMutex.lock();
     terminateNmeaReceive = 1;
     terminateNmeaReceiveMutex.unlock();
-
+    
+    receiveThreadObject->join();
 }
 
 void NMEA::ReceiveThread(std::string udpListenPortName)
@@ -115,7 +115,7 @@ void NMEA::ReceiveThread(std::string udpListenPortName)
         rcvSocket.open(asio::ip::udp::v4());
         rcvSocket.bind(asio::ip::udp::endpoint(asio::ip::udp::v4(), port));
         std::cout << "Listening for NMEA messages on " << rcvSocket.local_endpoint().address().to_string() << ":" << port << std::endl;
-    } catch (std::exception e) 
+    } catch (std::out_of_range const& e) 
     {
         std::cerr << e.what() << ". In NMEA::ReceiveThread()" << std::endl;
         return;
@@ -168,7 +168,7 @@ void NMEA::ReceiveThread(std::string udpListenPortName)
                 receivedNmeaMessagesMutex.unlock();
             }
 
-        } catch (std::exception e) 
+        } catch (std::out_of_range const& e) 
         {
             std::cerr << e.what() << std::endl;
         }
@@ -182,14 +182,14 @@ void NMEA::receive()
     receivedNmeaMessagesMutex.lock();
     if (!receivedNmeaMessages.empty())
     {
-        for (int i=0; i < receivedNmeaMessages.size(); i++)
+      for (irr::u32 i=0; i < receivedNmeaMessages.size(); i++)
         {
             std::string message = receivedNmeaMessages[i];
 
             // get all sentences and strip \r\n
             std::vector<std::string> sentences;
             int last_pos = 0; 
-            int pos = message.find("\r\n");
+            long unsigned int pos = message.find("\r\n");
             while (pos != std::string::npos)
             {
                 int sentence_len = pos - last_pos;
@@ -199,7 +199,7 @@ void NMEA::receive()
             }
             
             // iterate over sentences and handle them one by one
-            for (int i=0; i < sentences.size(); i++)
+            for (irr::u32 i=0; i < sentences.size(); i++)
             {
                 std::string sentence = sentences[i];
 
@@ -226,7 +226,7 @@ void NMEA::receive()
                 std::vector<std::string> fields;
                 char last_char;
                 std::string field = "";
-                for (int i=7; i < sentence.length(); i++) 
+                for (irr::u32 i=7; i < sentence.length(); i++) 
                 {
                     last_char = sentence[i];
                     if (last_char == '*') break;
@@ -348,7 +348,6 @@ void NMEA::updateNMEA()
             char radioChannel = 'B';
             std::string data;
             int fillBits;
-            bool done;
             std::tie(data, fillBits) = AIS::generateClassAReport(model, ship);
 
             snprintf(messageBuffer,maxSentenceChars,"!AIVDM,%d,%d,,%c,%s,%d",
@@ -458,7 +457,7 @@ void NMEA::updateNMEA()
             if (model->getARPATracksSize() > 0) {
                 std::string messageToSend = "";
                 //To think about/add: Lost contacts? Manually aquired contacts?
-                for (int i=0; i<model->getARPATracksSize(); i++) {
+                for (irr::u32 i=0; i<model->getARPATracksSize(); i++) {
                     ARPAContact contact = model->getARPAContactFromTrackIndex(i);
                     ARPAEstimatedState state = contact.estimate;
                     snprintf(messageBuffer,maxSentenceChars,"$RATTM,%02d,%.1f,%.1f,T,%.1f,%.1f,T,%.1f,%.1f,N,TGT%02d,T,,%s.00,A",
@@ -495,7 +494,7 @@ void NMEA::updateNMEA()
             snprintf(messageBuffer,maxSentenceChars,"$RAOSD,");
             messageToSend.append(addChecksum(std::string(messageBuffer)));
             break;
-        /*
+        */
         /*
         case POS: // 8.3.65 Device position and ship dimensions report or configuration command
             snprintf(messageBuffer,maxSentenceChars,"$INPOS,");

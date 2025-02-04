@@ -80,7 +80,7 @@ void saveFile(irr::IrrlichtDevice* device, std::string iniFilename, irr::gui::IG
                 if ((*it)->getType() == irr::gui::EGUIET_TABLE ) {
                     irr::gui::IGUITable* thisTable = (irr::gui::IGUITable*)(*it);
                     irr::u32 numberOfRows = thisTable->getRowCount();
-                    for (int j = 0; j<numberOfRows; j++) {
+                    for (irr::u32 j = 0; j<numberOfRows; j++) {
                         std::string varName(irr::core::stringc(thisTable->getCellText(j,0)).c_str());
                         std::string varValue(irr::core::stringc(thisTable->getCellText(j,1)).c_str());
                         std::string desc(irr::core::stringc(thisTable->getCellText(j,2)).c_str());
@@ -163,7 +163,7 @@ private:
 
             if (event.GUIEvent.EventType == irr::gui::EGET_TABLE_SELECTED_AGAIN  ) {
                 selectedTable = ((irr::gui::IGUITable*)event.GUIEvent.Caller);
-                irr::s32 id = event.GUIEvent.Caller->getID();
+                //irr::s32 id = event.GUIEvent.Caller->getID();
                 selectedRow = selectedTable->getSelected();
                 irr::core::stringw selectedValue = irr::core::stringw(selectedTable->getCellText(selectedRow,1));
 
@@ -371,8 +371,8 @@ int main (int argc, char ** argv)
 
 					//TODO: Ignore 'joystick_map*' cases, ie force these to return found = true;
 
-					for (int i = 0; i < iniFileStructure.size(); i++) {
-						for (int j = 0; j < iniFileStructure.at(i).settings.size(); j++) {
+					for (irr::u32 i = 0; i < iniFileStructure.size(); i++) {
+					  for (irr::u32 j = 0; j < iniFileStructure.at(i).settings.size(); j++) {
 							std::string compare1 = iniFileStructure.at(i).settings.at(j).settingName;
 							std::string compare2 = thisEntry.settingName;
 							Utilities::to_lower(compare1);
@@ -392,7 +392,7 @@ int main (int argc, char ** argv)
 					if (!found) {
 						//Add to corresponding tab
                         int whichTab = 0;
-						for (int i = 0; i < iniFileStructure.size(); i++) {
+			for (irr::u32 i = 0; i < iniFileStructure.size(); i++) {
 							if (currentTabName.compare(iniFileStructure.at(i).tabName) == 0) {
 								whichTab = i;
 							}
@@ -494,12 +494,12 @@ int main (int argc, char ** argv)
 
     int pad = 10;
 
-    irr::gui::IGUIButton* saveButton = environment->addButton(irr::core::rect<irr::s32>(pad, height-(50*fontScale), 150*fontScale, height-pad),0,SAVE_BUTTON,language.translate("save").c_str());
+    environment->addButton(irr::core::rect<irr::s32>(pad, height-(50*fontScale), 150*fontScale, height-pad),0,SAVE_BUTTON,language.translate("save").c_str());
 
     irr::gui::IGUITabControl* tabbedPane = environment->addTabControl( irr::core::rect<irr::s32>(pad,pad,width-pad,height-(50*fontScale)-pad),0,true);
 
     //Add tab entry here
-    for(int i = 0; i<iniFileStructure.size(); i++) {
+    for(irr::u32 i = 0; i<iniFileStructure.size(); i++) {
         std::string tabName = iniFileStructure.at(i).tabName;
         irr::gui::IGUITab* thisTab = tabbedPane->addTab((irr::core::stringw(tabName.substr(1,tabName.length()-2).c_str())).c_str());
 
@@ -513,7 +513,7 @@ int main (int argc, char ** argv)
         thisTable->setColumnWidth(2,2*width);
         thisTable->setToolTipText(language.translate("doubleClick").c_str());
 
-        for (int j = 0; j<iniFileStructure.at(i).settings.size(); j++) {
+        for (irr::u32 j = 0; j<iniFileStructure.at(i).settings.size(); j++) {
             thisTable->addRow(j);
             thisTable->setCellText(j,0,irr::core::stringw(iniFileStructure.at(i).settings.at(j).settingName.c_str()).c_str()/*,video::SColor (255, 255, 255, 255)*/ );
             thisTable->setCellText(j,1,irr::core::stringw(iniFileStructure.at(i).settings.at(j).settingValue.c_str()).c_str()/*,video::SColor (255, 255, 255, 255)*/ );

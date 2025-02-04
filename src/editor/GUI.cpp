@@ -65,11 +65,11 @@ GUIMain::GUIMain(irr::IrrlichtDevice* device, Lang* language, std::vector<std::s
     //Add selectors to allow changing own and other ships (only one visible at a time)
     guienv->addStaticText(language->translate("shipType").c_str(),irr::core::rect<irr::s32>(0.01*su,0.13*sh,0.13*su,0.16*sh),false,false,shipTab);
     ownShipTypeSelector = guienv->addComboBox(irr::core::rect<irr::s32>(0.01*su,0.16*sh,0.13*su,0.19*sh),shipTab,GUI_ID_OWNSHIPSELECT_COMBOBOX);
-    for (int i = 0; i<ownShipTypes.size(); i++) {
+    for (irr::u32 i = 0; i<ownShipTypes.size(); i++) {
         ownShipTypeSelector->addItem( irr::core::stringw(ownShipTypes.at(i).c_str()).c_str() );
     }
     otherShipTypeSelector = guienv->addComboBox(irr::core::rect<irr::s32>(0.01*su,0.16*sh,0.13*su,0.19*sh),shipTab,GUI_ID_OTHERSHIPSELECT_COMBOBOX);
-    for (int i = 0; i<otherShipTypes.size(); i++) {
+    for (irr::u32 i = 0; i<otherShipTypes.size(); i++) {
         otherShipTypeSelector->addItem( irr::core::stringw(otherShipTypes.at(i).c_str()).c_str() );
     }
     otherShipTypeSelector->setVisible(false); //Initially show own ship selector.
@@ -192,7 +192,7 @@ GUIMain::GUIMain(irr::IrrlichtDevice* device, Lang* language, std::vector<std::s
     weather->setSelected(floor(oldScenarioInfo.weather*2));
     rain->setSelected(floor(oldScenarioInfo.rainIntensity*2));
 
-    irr::s32 selectedVis;
+    irr::u32 selectedVis;
     if (oldScenarioInfo.visibilityRange<=1) {
         selectedVis = Utilities::round(-10.0*oldScenarioInfo.visibilityRange + 28); //Equation of relation between visibility and items in visibility list where in the 0.1 to 1.0 range, with a spacing of 0.1)
     } else {
@@ -214,7 +214,7 @@ GUIMain::GUIMain(irr::IrrlichtDevice* device, Lang* language, std::vector<std::s
 
     //Add an info box if in multiplayer mode
     if (multiplayer) {
-        irr::gui::IGUIWindow* multiplayerInstructions = guienv->addMessageBox(L"",language->translate("multiplayerinfo").c_str());
+        guienv->addMessageBox(L"",language->translate("multiplayerinfo").c_str());
     }
 
 }
@@ -325,7 +325,7 @@ void GUIMain::updateGuiData(ScenarioData scenarioData, irr::s32 mapOffsetX, irr:
         rain->setSelected(floor(scenarioData.rainIntensity*2));
     }
     if (oldScenarioInfo.visibilityRange != scenarioData.visibilityRange) {
-        irr::s32 selectedVis;
+        irr::u32 selectedVis;
         if (scenarioData.visibilityRange<=1) {
             selectedVis = Utilities::round(-10.0*scenarioData.visibilityRange + 28.0); //Equation of relation between visibility and items in visibility list where in the 0.1 to 1.0 range, with a spacing of 0.1)
         } else {
@@ -387,16 +387,16 @@ void GUIMain::updateGuiData(ScenarioData scenarioData, irr::s32 mapOffsetX, irr:
     //Update edit boxes if required, and then mark as updated
     //This must be done before we update the drop down boxes, as otherwise we'll miss the results of the manually triggered GUI change events
     if (editBoxesNeedUpdating) {
-        if (selectedShip >= 0 && selectedShip < scenarioData.otherShipsData.size()) {
+      if (selectedShip >= 0 && (irr::u32)selectedShip < scenarioData.otherShipsData.size()) {
             mmsiEdit->setText(irr::core::stringw(scenarioData.otherShipsData.at(selectedShip).mmsi).c_str());
         } else if (selectedShip == -1) {
             mmsiEdit->setText(L"-");
         }
-        if (selectedShip >= 0 && selectedShip < scenarioData.otherShipsData.size() && selectedLeg >= 0 && selectedLeg < scenarioData.otherShipsData.at(selectedShip).legs.size()) {
+      if (selectedShip >= 0 && (irr::u32)selectedShip < scenarioData.otherShipsData.size() && selectedLeg >= 0 && (irr::u32)selectedLeg < scenarioData.otherShipsData.at(selectedShip).legs.size()) {
             legCourseEdit  ->setText(irr::core::stringw(scenarioData.otherShipsData.at(selectedShip).legs.at(selectedLeg).bearing).c_str());
             legSpeedEdit   ->setText(irr::core::stringw(scenarioData.otherShipsData.at(selectedShip).legs.at(selectedLeg).speed).c_str());
             //Distance
-            if ( (selectedLeg+1) < scenarioData.otherShipsData.at(selectedShip).legs.size() ) {
+            if ( (irr::u32)(selectedLeg+1) < scenarioData.otherShipsData.at(selectedShip).legs.size() ) {
                 //There is a next leg, so can check distance
                 irr::f32 legDurationS = scenarioData.otherShipsData.at(selectedShip).legs.at(selectedLeg+1).startTime - scenarioData.otherShipsData.at(selectedShip).legs.at(selectedLeg).startTime;
                 irr::f32 legDurationH = legDurationS / SECONDS_IN_HOUR;
@@ -422,7 +422,7 @@ void GUIMain::updateGuiData(ScenarioData scenarioData, irr::s32 mapOffsetX, irr:
             ownShipTypeSelector->setVisible(true);
             //Find the ship name in the list that matches (if it exists)
             irr::core::stringw ownShipName = irr::core::stringw(scenarioData.ownShipData.ownShipName.c_str());
-            for(int i = 0; i < ownShipTypeSelector->getItemCount(); i++) {
+            for(irr::u32 i = 0; i < ownShipTypeSelector->getItemCount(); i++) {
                 irr::core::stringw thisName(ownShipTypeSelector->getItem(i));
                 if (thisName.equals_ignore_case(ownShipName)) {ownShipTypeSelector->setSelected(i);}
             }
@@ -430,10 +430,10 @@ void GUIMain::updateGuiData(ScenarioData scenarioData, irr::s32 mapOffsetX, irr:
             otherShipTypeSelector->setVisible(true);
             ownShipTypeSelector->setVisible(false);
             //Find the ship name in the list that matches (if it exists)
-            if (selectedShip >= 0 && selectedShip < scenarioData.otherShipsData.size()) {
+            if (selectedShip >= 0 && (irr::u32)selectedShip < scenarioData.otherShipsData.size()) {
                 //Find the ship name in the list that matches (if it exists)
                 irr::core::stringw otherShipName = irr::core::stringw(scenarioData.otherShipsData.at(selectedShip).shipName.c_str());
-                for(int i = 0; i < otherShipTypeSelector->getItemCount(); i++) {
+                for(irr::u32 i = 0; i < otherShipTypeSelector->getItemCount(); i++) {
                     irr::core::stringw thisName(otherShipTypeSelector->getItem(i));
                     if (thisName.equals_ignore_case(otherShipName)) {otherShipTypeSelector->setSelected(i);}
                 }
@@ -578,7 +578,7 @@ void GUIMain::drawInformationOnMap(const irr::f32& time, const irr::s32& mapOffs
     } //Loop for each ship
 }
 
-void GUIMain::updateDropDowns(const std::vector<OtherShipData>& otherShips, irr::s32 selectedShip, irr::f32 time) {
+void GUIMain::updateDropDowns(const std::vector<OtherShipData>& otherShips, irr::u32 selectedShip, irr::f32 time) {
 
 //Update drop down menus for ships and legs
 

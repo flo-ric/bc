@@ -185,7 +185,7 @@ void NetworkPrimary::receiveNetwork()
 
             std::vector<std::string> receivedData  = Utilities::split(receivedStrings,'|');
 
-            for(int subMessage = 0; subMessage < receivedData.size(); subMessage++) {
+            for(irr::u32 subMessage = 0; subMessage < receivedData.size(); subMessage++) {
                 std::string receivedString = receivedData.at(subMessage);
 
                 //Basic checks

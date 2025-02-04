@@ -69,7 +69,7 @@ void Network::connectToServer(std::string hostnames)
     }
 
     //Set up a peer for each hostname
-    for (int i = 0; i<multipleHostnames.size(); i++) {
+    for (irr::u32 i = 0; i<multipleHostnames.size(); i++) {
         ENetAddress address;
         ENetPeer* peer;
 

@@ -219,14 +219,14 @@ void GUIMain::updateGuiData(irr::f32 time, irr::s32 mapOffsetX, irr::s32 mapOffs
     //Update edit boxes if required, and then mark as updated
     //This must be done before we update the drop down boxes, as otherwise we'll miss the results of the manually triggered GUI change events
     if (editBoxesNeedUpdating) {
-        if (selectedShip >= 0 && selectedShip < otherShips.size()) {
+      if (selectedShip >= 0 && (irr::u32)selectedShip < otherShips.size()) {
             mmsiEdit->setText(irr::core::stringw(otherShips.at(selectedShip).mmsi).c_str());
         }
-        if (selectedShip >= 0 && selectedShip < otherShips.size() && selectedLeg >= 0 && selectedLeg < otherShips.at(selectedShip).legs.size()) {
+        if (selectedShip >= 0 && (irr::u32)selectedShip < otherShips.size() && selectedLeg >= 0 && (irr::u32)selectedLeg < otherShips.at(selectedShip).legs.size()) {
             legCourseEdit  ->setText(irr::core::stringw(otherShips.at(selectedShip).legs.at(selectedLeg).bearing).c_str());
             legSpeedEdit   ->setText(irr::core::stringw(otherShips.at(selectedShip).legs.at(selectedLeg).speed).c_str());
             //Distance
-            if ( (selectedLeg+1) < otherShips.at(selectedShip).legs.size() ) {
+            if ( (irr::u32)(selectedLeg+1) < otherShips.at(selectedShip).legs.size() ) {
                 //There is a next leg, so can check distance
                 irr::f32 legDurationS = otherShips.at(selectedShip).legs.at(selectedLeg+1).startTime - otherShips.at(selectedShip).legs.at(selectedLeg).startTime;
                 irr::f32 legDurationH = legDurationS / SECONDS_IN_HOUR;
@@ -461,7 +461,7 @@ void GUIMain::updateDropDowns(const std::vector<OtherShipDisplayData>& otherShip
     //Find number of legs for selected ship if known
     irr::u32 selectedShipNoLegs = 0;
     if (selectedShip>=0) {
-        if (otherShips.size() > selectedShip) { //SelectedShip is valid
+        if (otherShips.size() > (irr::u32)selectedShip) { //SelectedShip is valid
             selectedShipNoLegs = otherShips.at(selectedShip).legs.size();
         }
     }
@@ -479,7 +479,7 @@ void GUIMain::updateDropDowns(const std::vector<OtherShipDisplayData>& otherShip
         if (legSelector->getItemCount() > 0) {
 
             //Get legs for selected ship
-            if (selectedShip>=0 && otherShips.size() > selectedShip) { //SelectedShip is valid
+            if (selectedShip>=0 && otherShips.size() > (irr::u32)selectedShip) { //SelectedShip is valid
                 std::vector<Leg> selectedShipLegs = otherShips.at(selectedShip).legs;
 
                 //Find current leg (FIXME: Duplicated code)

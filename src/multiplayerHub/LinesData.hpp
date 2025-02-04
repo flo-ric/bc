@@ -22,12 +22,10 @@
 #include "irrlicht.h"
 
 
-struct LineData {
-    public:
+typedef struct LineData{
     irr::f32 startX, startY, startZ, endX, endY, endZ, nominalLength, breakingTension, breakingStrain, nominalShipMass;
     int startType, endType, startID, endID, keepSlack, heaveIn; //0: Unknown, 1: Own ship, 2: Other ship, 3: Buoy, 4: Land object
-    LineData():startX(0),startY(0),startZ(0),endX(0),endY(0),endZ(0),keepSlack(0),heaveIn(0),nominalLength(0),breakingTension(0),breakingStrain(0),nominalShipMass(0),startType(0),endType(0),startID(0),endID(0){}
-};
+}LineData;
 
 //hold information about lines (mooring and towing)
 

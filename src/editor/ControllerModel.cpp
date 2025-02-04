@@ -176,9 +176,9 @@ ControllerModel::ControllerModel(irr::IrrlichtDevice* device, Lang* lang, GUIMai
     std::cout << "Width m " << terrainXWidth << " Height m " << terrainZWidth << std::endl;
 
     //Calculate ratio required
-    irr::f32 widthToHeight;
+    //irr::f32 widthToHeight;
     if (terrainXWidth>0 &&  terrainZWidth>0) {
-        widthToHeight = terrainXWidth/terrainZWidth;
+      //widthToHeight = terrainXWidth/terrainZWidth;
     } else {
         std::cout << "Zero map width or height. Please check world model." << std::endl;
         exit(EXIT_FAILURE);
@@ -341,7 +341,7 @@ void ControllerModel::decreaseZoom()
     }
 }
 
-void ControllerModel::setShipPosition(irr::s32 ship, irr::core::vector2df position)
+void ControllerModel::setShipPosition(irr::u32 ship, irr::core::vector2df position)
 {
     if (ship==0) {
         //Own ship
@@ -349,7 +349,7 @@ void ControllerModel::setShipPosition(irr::s32 ship, irr::core::vector2df positi
         scenarioData->ownShipData.initialZ = position.Y;
     } else if (ship>0) {
         //Other ship
-        irr::s32 otherShipNumber = ship-1; //Ship number is minimum of 1, so subtract 1 to start at 0
+        irr::u32 otherShipNumber = ship-1; //Ship number is minimum of 1, so subtract 1 to start at 0
         if (otherShipNumber < scenarioData->otherShipsData.size()) {
             scenarioData->otherShipsData.at(otherShipNumber).initialX = position.X;
             scenarioData->otherShipsData.at(otherShipNumber).initialZ = position.Y;
@@ -357,7 +357,7 @@ void ControllerModel::setShipPosition(irr::s32 ship, irr::core::vector2df positi
     }
 }
 
-void ControllerModel::updateSelectedShip(irr::s32 index) //To be called from eventReceiver, where index is from the combo box
+void ControllerModel::updateSelectedShip(irr::u32 index) //To be called from eventReceiver, where index is from the combo box
 {
     if(index < 1) { //If 0 or -1
         selectedShip = -1; //Own ship
@@ -368,7 +368,7 @@ void ControllerModel::updateSelectedShip(irr::s32 index) //To be called from eve
     //No guarantee from this that the selected ship is valid
 }
 
-void ControllerModel::updateSelectedLeg(irr::s32 index) //To be called from eventReceiver, where index is from the combo box. -1 if nothing selected, 0 upwards for leg
+void ControllerModel::updateSelectedLeg(irr::u32 index) //To be called from eventReceiver, where index is from the combo box. -1 if nothing selected, 0 upwards for leg
 {
     selectedLeg = index;
     //No guarantee from this that the selected leg is valid
@@ -421,7 +421,7 @@ void ControllerModel::checkName() //Check if the scenario name chosen will mean 
 
 }
 
-void ControllerModel::changeLeg(irr::s32 ship, irr::s32 index, irr::f32 legCourse, irr::f32 legSpeed, irr::f32 legDistance)  //Change othership (or ownship) course, speed etc.
+void ControllerModel::changeLeg(irr::u32 ship, irr::u32 index, irr::f32 legCourse, irr::f32 legSpeed, irr::f32 legDistance)  //Change othership (or ownship) course, speed etc.
 {
     //If ownship:
     if (ship==0) {
@@ -431,7 +431,7 @@ void ControllerModel::changeLeg(irr::s32 ship, irr::s32 index, irr::f32 legCours
 
     //If other ship:
     if (ship>0) {
-        int otherShipIndex = ship-1;
+      irr::u32 otherShipIndex = ship-1;
         if (otherShipIndex < scenarioData->otherShipsData.size()) {
             if (index < scenarioData->otherShipsData.at(otherShipIndex).legs.size()) {
                 scenarioData->otherShipsData.at(otherShipIndex).legs.at(index).bearing = legCourse;
@@ -443,11 +443,11 @@ void ControllerModel::changeLeg(irr::s32 ship, irr::s32 index, irr::f32 legCours
     recalculateLegTimes(); //Subsequent leg start times may have changed, so recalculate these
 }
 
-void ControllerModel::deleteLeg(irr::s32 ship, irr::s32 index)
+void ControllerModel::deleteLeg(irr::u32 ship, irr::u32 index)
 {
     //If other ship:
     if (ship>0) {
-        int otherShipIndex = ship-1;
+      irr::u32 otherShipIndex = ship-1;
         if (otherShipIndex < scenarioData->otherShipsData.size()) {
             if (index < scenarioData->otherShipsData.at(otherShipIndex).legs.size()) {
                 //Delete this leg
@@ -458,30 +458,30 @@ void ControllerModel::deleteLeg(irr::s32 ship, irr::s32 index)
     }
 }
 
-void ControllerModel::setMMSI(irr::s32 ship, int mmsi)
+void ControllerModel::setMMSI(irr::u32 ship, int mmsi)
 {
     //If other ship:
     if (ship>0) {
-        int otherShipIndex = ship-1;
+      irr::u32 otherShipIndex = ship-1;
         if (otherShipIndex < scenarioData->otherShipsData.size()) {
             scenarioData->otherShipsData.at(otherShipIndex).mmsi = mmsi;
         }
     }   
 }
 
-void ControllerModel::addLeg(irr::s32 ship, irr::s32 afterLegNumber, irr::f32 legCourse, irr::f32 legSpeed, irr::f32 legDistance)
+void ControllerModel::addLeg(irr::u32 ship, irr::s32 afterLegNumber, irr::f32 legCourse, irr::f32 legSpeed, irr::f32 legDistance)
 {
     //If other ship:
     if (ship>0) {
-        int otherShipIndex = ship-1;
+      irr::u32 otherShipIndex = ship-1;
         if (otherShipIndex < scenarioData->otherShipsData.size()) {
             std::vector<LegData>* legs = &scenarioData->otherShipsData.at(otherShipIndex).legs;
             //Check if leg is reasonable, and is before the 'stop leg'
             //A special case allows afterLegNumber to equal -1, for when only a single 'stop leg' exists
-            if (afterLegNumber >= -1 && afterLegNumber < ((int)legs->size() - 1)) {
+            if (afterLegNumber >= -1 && afterLegNumber < (irr::s32)(legs->size() - 1)) {
 
                 //If the 'after' leg is the penultimate, add a leg before the stop one, starting now
-                if (afterLegNumber == ((int)legs->size()-2))  { //This also catches the special case where there is only the 'stop' leg, so the 'afterLegNumber value is -1
+	      if (afterLegNumber == (irr::s32)(legs->size()-2))  { //This also catches the special case where there is only the 'stop' leg, so the 'afterLegNumber value is -1
 
                     LegData newLeg;
                     newLeg.bearing = legCourse;
@@ -526,11 +526,11 @@ void ControllerModel::addShip(std::string name, irr::core::vector2df position)
     recalculateLegTimes(); //Subsequent leg start times may have changed, so recalculate these
 }
 
-void ControllerModel::deleteShip(irr::s32 ship) 
+void ControllerModel::deleteShip(irr::u32 ship) 
 {
 	//If other ship:
 	if (ship > 0) {
-		int otherShipIndex = ship - 1;
+	  irr::u32 otherShipIndex = ship - 1;
 		if (otherShipIndex < scenarioData->otherShipsData.size()) {
 			scenarioData->otherShipsData.erase(scenarioData->otherShipsData.begin()+otherShipIndex);
 		}
@@ -542,10 +542,10 @@ void ControllerModel::recalculateLegTimes()
     //Run through all othership legs, recalculating leg stop times
     irr::f32 scenarioStartTime = scenarioData->startTime; //Legs start at the start of the scenario
 
-    for (int thisShip = 0; thisShip < scenarioData->otherShipsData.size(); thisShip++) {
+    for (irr::u32 thisShip = 0; thisShip < scenarioData->otherShipsData.size(); thisShip++) {
 
         irr::f32 legStartTime = scenarioStartTime; //Legs start at the start of the scenario
-        for (int thisLeg = 0; thisLeg < scenarioData->otherShipsData.at(thisShip).legs.size(); thisLeg++) {
+        for (irr::u32 thisLeg = 0; thisLeg < scenarioData->otherShipsData.at(thisShip).legs.size(); thisLeg++) {
             scenarioData->otherShipsData.at(thisShip).legs.at(thisLeg).startTime = legStartTime;
             irr::f32 thisLegDistance = scenarioData->otherShipsData.at(thisShip).legs.at(thisLeg).distance;
             irr::f32 thisLegSpeed = scenarioData->otherShipsData.at(thisShip).legs.at(thisLeg).speed;
@@ -562,9 +562,9 @@ void ControllerModel::changeOwnShipName(std::string name)
 
 }
 
-void ControllerModel::changeOtherShipName(irr::s32 ship, std::string name)
+void ControllerModel::changeOtherShipName(irr::u32 ship, std::string name)
 {
-    irr::s32 shipIndex = ship-1; //'ship' number starts at 1 for otherShips
+    irr::u32 shipIndex = ship-1; //'ship' number starts at 1 for otherShips
     if (shipIndex < scenarioData->otherShipsData.size()) {
         scenarioData->otherShipsData.at(shipIndex).shipName = name;
     }
@@ -641,7 +641,7 @@ void ControllerModel::save()
 
     otherFile.open(otherPath.c_str());
     otherFile << "Number=" << scenarioData->otherShipsData.size() << std::endl;
-    for (int i = 1; i<=scenarioData->otherShipsData.size(); i++) {
+    for (irr::u32 i = 1; i<=scenarioData->otherShipsData.size(); i++) {
         otherFile << "Type(" << i << ")=\"" << scenarioData->otherShipsData.at(i-1).shipName << "\"" << std::endl;
         otherFile << "InitLong(" << i << ")=" << xToLong(scenarioData->otherShipsData.at(i-1).initialX) << std::endl;
         otherFile << "InitLat(" << i << ")=" << zToLat(scenarioData->otherShipsData.at(i-1).initialZ) << std::endl;
@@ -649,7 +649,7 @@ void ControllerModel::save()
         //Don't save last leg, as this is an automatically added 'stop' leg.
         otherFile << "Legs(" << i << ")=" << scenarioData->otherShipsData.at(i-1).legs.size() - 1 << std::endl;
 
-        for (int j = 1; j<=scenarioData->otherShipsData.at(i-1).legs.size() - 1; j++) {
+        for (irr::u32 j = 1; j<=scenarioData->otherShipsData.at(i-1).legs.size() - 1; j++) {
             otherFile << "Bearing(" << i << "," << j << ")=" << scenarioData->otherShipsData.at(i-1).legs.at(j-1).bearing << std::endl;
             otherFile << "Speed(" << i << "," << j << ")=" << scenarioData->otherShipsData.at(i-1).legs.at(j-1).speed << std::endl;
             otherFile << "Distance(" << i << "," << j << ")=" << scenarioData->otherShipsData.at(i-1).legs.at(j-1).distance << std::endl;

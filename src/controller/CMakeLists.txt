@@ -1,6 +1,8 @@
 
 add_subdirectory(libs/aisparser)
 
+add_compile_options(-Wall -Wpedantic)
+
 add_executable(bridgecommand-mc
     ControllerModel.cpp
     EventReceiver.cpp

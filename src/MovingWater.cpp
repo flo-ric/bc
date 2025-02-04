@@ -32,10 +32,10 @@ namespace scene
 {
 
 //! constructor
-MovingWaterSceneNode::MovingWaterSceneNode(ISceneNode* parent, ISceneManager* mgr, ISceneNode* ownShip, irr::s32 id, irr::u32 disableShaders, bool withReflection, irr::u32 segments,
+MovingWaterSceneNode::MovingWaterSceneNode(ISceneNode* parent, ISceneManager* mgr, ISceneNode* ownShip, irr::s32 id, irr::u32 aDisableShaders, bool aWithReflection, irr::u32 aSegments,
 		const irr::core::vector3df& position, const irr::core::vector3df& rotation)
 	//: IMeshSceneNode(mesh, parent, mgr, id, position, rotation, scale),
-	: IMeshSceneNode(parent, mgr, id, position, rotation, irr::core::vector3df(1.0f,1.0f,1.0f)), lightLevel(0.75), seaState(0.5), disableShaders(disableShaders), withReflection(withReflection), segments(segments)
+	: IMeshSceneNode(parent, mgr, id, position, rotation, irr::core::vector3df(1.0f,1.0f,1.0f))
 {
 	#ifdef _DEBUG
 	setDebugName("MovingWaterSceneNode");
@@ -45,8 +45,12 @@ MovingWaterSceneNode::MovingWaterSceneNode(ISceneNode* parent, ISceneManager* mg
 
 	driver = mgr->getVideoDriver();
 	ownShipSceneNode = ownShip;
-
-
+	lightLevel=0.75;
+	seaState=0.5;
+	disableShaders=aDisableShaders;
+	withReflection=aWithReflection;
+	segments=aSegments;
+	
 	//From Mel demo (http://irrlicht.sourceforge.net/forum/viewtopic.php?f=9&t=51130&start=15#p296723) START
 	irr::video::E_DRIVER_TYPE driverType = mgr->getVideoDriver()->getDriverType();
 
