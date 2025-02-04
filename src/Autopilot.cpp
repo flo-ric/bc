@@ -54,7 +54,6 @@ bool Autopilot::receiveAPB(APB sentence)
     if (sentence.cross_track_units == 'N') {
         crossTrackError *= M_IN_NM;
     }
-    char directionToTrack = sentence.direction;
 
     irr::f32 bearingToSteer = Angles::normaliseAngle(sentence.heading_to_dest);
     irr::f32 currentHeading = Angles::normaliseAngle(model->getHeading());

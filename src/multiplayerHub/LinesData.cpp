@@ -32,7 +32,7 @@ int LinesData::getNumberOfLines()
 {
     int overallLinesSize = 0;
     // find combined size of all
-    for (int i = 0; i < linesData.size(); i++) {
+    for (irr::u32 i = 0; i < linesData.size(); i++) {
         overallLinesSize += linesData.at(i).size();
     }
     return overallLinesSize;
@@ -42,8 +42,8 @@ int LinesData::getNumberOfOtherLines(int thisPeer)
 {
     int overallLinesSize = 0;
     // find combined size of all, excluding ones from this peer
-    for (int i = 0; i < linesData.size(); i++) {
-        if (i != thisPeer) {
+    for (irr::u32 i = 0; i < linesData.size(); i++) {
+      if (i != (irr::u32)thisPeer) {
             overallLinesSize += linesData.at(i).size();
         }
     }
@@ -101,11 +101,11 @@ std::string LinesData::getLineDataString(const unsigned int& shipNumber)
     // shipNumber is the ID we are sending the data to
     std::string linesDataString = "";
 
-    for (int i = 0; i < linesData.size(); i++) {
+    for (irr::u32 i = 0; i < linesData.size(); i++) {
         // i is the ID this data has been sent by
         if (i != shipNumber) { 
             // Don't add line feedback to our own ship, as the lines already exist there!
-            for (int j = 0; j < linesData.at(i).size(); j++ ) {
+            for (irr::u32 j = 0; j < linesData.at(i).size(); j++ ) {
                 linesDataString.append(Utilities::lexical_cast<std::string>(linesData.at(i).at(j).startX));
                 linesDataString.append(",");
                 linesDataString.append(Utilities::lexical_cast<std::string>(linesData.at(i).at(j).startY));
@@ -120,7 +120,7 @@ std::string LinesData::getLineDataString(const unsigned int& shipNumber)
                 linesDataString.append(",");
 
                 int originalStartType = linesData.at(i).at(j).startType;
-                int originalStartID = linesData.at(i).at(j).startID;
+                irr::u32 originalStartID = linesData.at(i).at(j).startID;
                 int modifiedStartType = 0;
                 int modifiedStartID = 0;
                 if (originalStartType == 2) {
@@ -144,7 +144,7 @@ std::string LinesData::getLineDataString(const unsigned int& shipNumber)
                 }
 
                 int originalEndType = linesData.at(i).at(j).endType;
-                int originalEndID = linesData.at(i).at(j).endID;
+                irr::u32 originalEndID = linesData.at(i).at(j).endID;
                 int modifiedEndType = 0;
                 int modifiedEndID = 0;
                 if (originalEndType == 2) {

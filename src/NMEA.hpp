@@ -65,6 +65,7 @@ private:
     std::mutex terminateNmeaReceiveMutex;
     std::vector<std::string> receivedNmeaMessages;
     std::mutex receivedNmeaMessagesMutex;
+  std::thread* receiveThreadObject;
 };
 
 #endif // __NMEA_HPP_INCLUDED__

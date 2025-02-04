@@ -1249,7 +1249,7 @@ bool MyEventReceiver::OnEvent(const irr::SEvent &event)
             device->getLogger()->log("");
 
             // If we've shown for all joysticks, don't show again.
-            if (event.JoystickEvent.Joystick + 1 == joystickInfo.size())
+            if ((irr::u32)event.JoystickEvent.Joystick + 1 == joystickInfo.size())
             {
                 lastShownJoystickStatus = device->getTimer()->getRealTime();
             }
@@ -1462,7 +1462,7 @@ bool MyEventReceiver::OnEvent(const irr::SEvent &event)
                 if (newJoystickThrustLeverPort < INFINITY && (joystickSetup.updateAllAxes || thrustLeverPortChanged))
                 {
 
-                    irr::f32 mappedValue = lookup1D(newJoystickThrustLeverPort, joystickSetup.inputPoints, joystickSetup.outputPoints);
+                    lookup1D(newJoystickThrustLeverPort, joystickSetup.inputPoints, joystickSetup.outputPoints);
                     if (model->isAzimuthAsternAllowed()) {
                         model->setPortAzimuthThrustLever(newJoystickThrustLeverPort);
                     } else {
@@ -1477,7 +1477,7 @@ bool MyEventReceiver::OnEvent(const irr::SEvent &event)
                 // Stbd Thrust Lever
                 if (newJoystickThrustLeverStbd < INFINITY && (joystickSetup.updateAllAxes || thrustLeverStbdChanged))
                 {
-                    irr::f32 mappedValue = lookup1D(newJoystickThrustLeverStbd, joystickSetup.inputPoints, joystickSetup.outputPoints);
+                    lookup1D(newJoystickThrustLeverStbd, joystickSetup.inputPoints, joystickSetup.outputPoints);
                     if (model->isAzimuthAsternAllowed()) {
                         model->setStbdAzimuthThrustLever(newJoystickThrustLeverStbd);
                     } else {

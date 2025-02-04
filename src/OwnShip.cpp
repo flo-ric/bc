@@ -259,7 +259,7 @@ void OwnShip::load(OwnShipData ownShipData, irr::core::vector3di numberOfContact
         ship = smgr->addAnimatedMeshSceneNode(shipMesh, 0, IDFlag_IsPickable, irr::core::vector3df(0, 0, 0));
 
         // Add child meshes for each
-        for (int i = 0; i < views.size(); i++)
+        for (irr::u32 i = 0; i < views.size(); i++)
         {
 
             irr::scene::IAnimatedMesh *viewMesh = smgr->addSphereMesh(irr::io::path("Sphere") + irr::io::path(i), 5.0, 32, 32);
@@ -604,7 +604,7 @@ void OwnShip::load(OwnShipData ownShipData, irr::core::vector3di numberOfContact
     // DEE_NOV22 vvvv Azimuth Drive code
     // calculate some parameters here for computational efficiency
     // HERE
-    irr::f32 idleEngine = (azimuthDriveEngineIdleRPM) / (maxEngineRevs); // DEE_NOV22 calculate idle engine expressed as (0..1) as opposed to RPM
+    //irr::f32 idleEngine = (azimuthDriveEngineIdleRPM) / (maxEngineRevs); // DEE_NOV22 calculate idle engine expressed as (0..1) as opposed to RPM
 
     // DEE_NOV22 initialise some new variables here
     portSchottel = 90;     // port schottel dead ahead
@@ -1786,12 +1786,12 @@ void OwnShip::update(irr::f32 deltaTime, irr::f32 scenarioTime, irr::f32 tideHei
         irr::f32 stbdAxialThrust = 0;
         irr::f32 portLateralThrust = 0;
         irr::f32 stbdLateralThrust = 0;
-        irr::f32 portTemporalThrust = 0; // probably temporal not needed at present but for future use as trim of outboard engine
-        irr::f32 stbdTemporalThrust = 0; // and for some configuration of sails and kites
+	//        irr::f32 portTemporalThrust = 0; // probably temporal not needed at present but for future use as trim of outboard engine
+        //irr::f32 stbdTemporalThrust = 0; // and for some configuration of sails and kites
 
-        irr::f32 axialThrust = 0;    // sum of axial thrusts
+        //irr::f32 axialThrust = 0;    // sum of axial thrusts
         irr::f32 lateralThrust = 0;  // sum of lateral thrusts
-        irr::f32 temporalThrust = 0; // sum of temporal thrusts
+        //irr::f32 temporalThrust = 0; // sum of temporal thrusts
                                      // DEE_DEV22 ^^^^
 
         if (azimuthDrive)
@@ -2427,7 +2427,7 @@ void OwnShip::collisionDetectAndRespond(irr::f32 &reaction, irr::f32 &lateralRea
         rot.setRotationDegrees(ship->getRotation());
         irr::core::vector3df shipAbsolutePosition = ship->getAbsolutePosition();
 
-        for (int i = 0; i < contactPoints.size(); i++)
+        for (irr::u32 i = 0; i < contactPoints.size(); i++)
         {
             irr::core::vector3df pointPosition = contactPoints.at(i).position;
             irr::core::vector3df pointPositionForNormal = pointPosition + contactPoints.at(i).normal;
@@ -2703,7 +2703,7 @@ void OwnShip::setViewVisibility(irr::u32 view)
     {
         irr::scene::ISceneNodeList childList = ship->getChildren();
         irr::scene::ISceneNodeList::ConstIterator it = childList.begin();
-        int i = 0;
+	irr::u32 i = 0;
         while (it != childList.end())
         {
 

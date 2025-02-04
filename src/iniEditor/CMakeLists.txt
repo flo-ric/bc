@@ -1,4 +1,6 @@
 
+add_compile_options(-Wall -Wpedantic)
+
 add_executable(bridgecommand-ini
     main.cpp
     ../IniFile.cpp

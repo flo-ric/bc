@@ -615,7 +615,7 @@ ARPAContact RadarCalculation::getARPAContactFromTrackIndex(irr::u32 trackIndex) 
     
     int contactID = getARPAContactIDFromTrackIndex(trackIndex);
 
-    if(contactID >=0 && contactID < arpaContacts.size()){
+    if(contactID >=0 && (irr::u32)contactID < arpaContacts.size()){
         return arpaContacts.at(contactID);
     } else {
         ARPAContact emptyContact;
@@ -989,28 +989,28 @@ void RadarCalculation::scan(irr::core::vector3d<int64_t> offsetPosition, const T
             //Generate a filtered version, based on the angles around. Lag behind by (for example) 3 steps, so we can filter on what's ahead, as well as what's behind
             irr::s32 filterAngle = (irr::s32)currentScanLine - 3;
                 while(filterAngle < 0) {filterAngle+=angularResolution;}
-                while(filterAngle >= angularResolution) {filterAngle-=angularResolution;}
+                while(filterAngle >= (irr::s32)angularResolution) {filterAngle-=angularResolution;}
             irr::s32 filterAngle_1 = filterAngle - 3;
                 while(filterAngle_1 < 0) {filterAngle_1+=angularResolution;}
-                while(filterAngle_1 >= angularResolution) {filterAngle_1-=angularResolution;}
+                while(filterAngle_1 >= (irr::s32)angularResolution) {filterAngle_1-=angularResolution;}
             irr::s32 filterAngle_2 = filterAngle - 2;
                 while(filterAngle_2 < 0) {filterAngle_2+=angularResolution;}
-                while(filterAngle_2 >= angularResolution) {filterAngle_2-=angularResolution;}
+                while(filterAngle_2 >= (irr::s32)angularResolution) {filterAngle_2-=angularResolution;}
             irr::s32 filterAngle_3 = filterAngle - 1;
                 while(filterAngle_3 < 0) {filterAngle_3+=angularResolution;}
-                while(filterAngle_3 >= angularResolution) {filterAngle_3-=angularResolution;}
+                while(filterAngle_3 >= (irr::s32)angularResolution) {filterAngle_3-=angularResolution;}
             irr::s32 filterAngle_4 = filterAngle;
                 while(filterAngle_4 < 0) {filterAngle_4+=angularResolution;}
-                while(filterAngle_4 >= angularResolution) {filterAngle_4-=angularResolution;}
+                while(filterAngle_4 >= (irr::s32)angularResolution) {filterAngle_4-=angularResolution;}
             irr::s32 filterAngle_5 = filterAngle + 1;
                 while(filterAngle_5 < 0) {filterAngle_5+=angularResolution;}
-                while(filterAngle_5 >= angularResolution) {filterAngle_5-=angularResolution;}
+                while(filterAngle_5 >= (irr::s32)angularResolution) {filterAngle_5-=angularResolution;}
             irr::s32 filterAngle_6 = filterAngle + 2;
                 while(filterAngle_6 < 0) {filterAngle_6+=angularResolution;}
-                while(filterAngle_6 >= angularResolution) {filterAngle_6-=angularResolution;}
+                while(filterAngle_6 >= (irr::s32)angularResolution) {filterAngle_6-=angularResolution;}
             irr::s32 filterAngle_7 = filterAngle + 3;
                 while(filterAngle_7 < 0) {filterAngle_7+=angularResolution;}
-                while(filterAngle_7 >= angularResolution) {filterAngle_7-=angularResolution;}
+                while(filterAngle_7 >= (irr::s32)angularResolution) {filterAngle_7-=angularResolution;}
             if (currentStep < rangeResolution * 0.1) {
                 scanArrayToPlot[filterAngle][currentStep] = std::max({
                     scanArrayAmplified[filterAngle_1][currentStep],
@@ -1158,7 +1158,7 @@ void RadarCalculation::clearTargetFromCursor()
     // If none within 1/10th of radar rang, don't do anything
     irr::f32 closestDistance = getRangeNm()*M_IN_NM / 10.0;
     int closeContact = -1;
-    for (int i = 0; i < arpaContacts.size(); i++) {
+    for (irr::u32 i = 0; i < arpaContacts.size(); i++) {
         irr::f32 targetRelX = arpaContacts.at(i).estimate.range*M_IN_NM * sin(arpaContacts.at(i).estimate.bearing*RAD_IN_DEG);
         irr::f32 targetRelZ = arpaContacts.at(i).estimate.range*M_IN_NM * cos(arpaContacts.at(i).estimate.bearing*RAD_IN_DEG);
 
@@ -1175,7 +1175,7 @@ void RadarCalculation::clearTargetFromCursor()
         }
     }
 
-    if (closeContact >= 0 && closeContact < arpaContacts.size()) {
+    if (closeContact >= 0 && closeContact < (irr::s32)arpaContacts.size()) {
         // Clear pointer to underlying contact, and mark as stationary
         arpaContacts.at(closeContact).estimate.stationary = true;
         arpaContacts.at(closeContact).contact = 0;
@@ -1194,7 +1194,7 @@ void RadarCalculation::trackTargetFromCursor()
     // If none within 1/10th of radar rang, don't do anything
     irr::f32 closestDistance = getRangeNm()*M_IN_NM / 10.0;
     int closeContact = -1;
-    for (int i = 0; i < arpaContacts.size(); i++) {
+    for (irr::u32 i = 0; i < arpaContacts.size(); i++) {
         irr::f32 targetRelX = arpaContacts.at(i).estimate.range*M_IN_NM * sin(arpaContacts.at(i).estimate.bearing*RAD_IN_DEG);
         irr::f32 targetRelZ = arpaContacts.at(i).estimate.range*M_IN_NM * cos(arpaContacts.at(i).estimate.bearing*RAD_IN_DEG);
 
@@ -1211,7 +1211,7 @@ void RadarCalculation::trackTargetFromCursor()
         }
     }
 
-    if (closeContact >= 0 && closeContact < arpaContacts.size()) {
+    if (closeContact >= 0 && closeContact < (irr::s32)arpaContacts.size()) {
         arpaContacts.at(closeContact).estimate.stationary = false;
     }
 
@@ -1440,7 +1440,7 @@ void RadarCalculation::render(irr::video::IImage * radarImage, irr::video::IImag
 
     irr::f32 scanAngle;
 
-    for (int scanLine = 0; scanLine < angularResolution; scanLine++) {
+    for (irr::u32 scanLine = 0; scanLine < angularResolution; scanLine++) {
 
         scanAngle = ((irr::f32) scanLine / (irr::f32) angularResolution) * 360.0f;
 

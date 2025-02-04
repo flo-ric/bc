@@ -38,7 +38,7 @@ void Lines::addLine(SimulationModel* model, bool networkLine)
 }
 
 //Set the start point of the most recently added line
-void Lines::setLineStart(irr::scene::ISceneNode* lineStart,  int nodeType, int id, bool networkLine, int lineID) 
+void Lines::setLineStart(irr::scene::ISceneNode* lineStart,  int nodeType, int id, bool networkLine, irr::s32 lineID) 
 {
     std::vector<Line>* thisLines;
     if (networkLine) {
@@ -55,7 +55,7 @@ void Lines::setLineStart(irr::scene::ISceneNode* lineStart,  int nodeType, int i
         // Default, last in list
         thisLines->back().setStart(lineStart, nodeType, id);
     } else {
-        if (thisLines->size() > lineID && lineID >= 0) {
+      if ((int)thisLines->size() > lineID && lineID >= 0) {
             std::vector<Line>::iterator it = thisLines->begin() + lineID;
             it->setStart(lineStart, nodeType, id);
         }
@@ -79,7 +79,7 @@ void Lines::setLineEnd(irr::scene::ISceneNode* lineEnd, irr::f32 shipMass, int n
         // Default, last in list
         thisLines->back().setEnd(lineEnd, shipMass, nodeType, id);
     } else {
-        if (thisLines->size() > lineID && lineID >= 0) {
+        if ((int)thisLines->size() > lineID && lineID >= 0) {
             std::vector<Line>::iterator it = thisLines->begin() + lineID;
             it->setEnd(lineEnd, shipMass, nodeType, id);
         }
@@ -98,7 +98,7 @@ int Lines::getNumberOfLines(bool networkLine) const
         thisLines = &lines;
     }
     
-    return thisLines->size();
+    return (int)thisLines->size();
 }
 
 // Return a vector of the current names
@@ -122,7 +122,7 @@ bool Lines::getKeepSlack(int lineID, bool networkLine)
         thisLines = &lines;
     }
     
-    if (thisLines->size() > lineID && lineID >= 0) {
+    if ((int)thisLines->size() > lineID && lineID >= 0) {
         std::vector<Line>::iterator it = thisLines->begin() + lineID;
         return it->getKeepSlack();
     } else {
@@ -140,7 +140,7 @@ void Lines::setKeepSlack(int lineID, bool keepSlack, bool networkLine)
     } else {
         thisLines = &lines;
     }
-    if (thisLines->size() > lineID && lineID >= 0) {
+    if ((int)thisLines->size() > lineID && lineID >= 0) {
         std::vector<Line>::iterator it = thisLines->begin() + lineID;
         it->setKeepSlack(keepSlack);
     }   
@@ -156,7 +156,7 @@ bool Lines::getHeaveIn(int lineID, bool networkLine)
         thisLines = &lines;
     }
     
-    if (thisLines->size() > lineID && lineID >= 0) {
+    if ((int)thisLines->size() > lineID && lineID >= 0) {
         std::vector<Line>::iterator it = thisLines->begin() + lineID;
         return it->getHeaveIn();
     } else {
@@ -174,7 +174,7 @@ void Lines::setHeaveIn(int lineID, bool heaveIn, bool networkLine)
     } else {
         thisLines = &lines;
     }
-    if (thisLines->size() > lineID && lineID >= 0) {
+    if ((int)thisLines->size() > lineID && lineID >= 0) {
         std::vector<Line>::iterator it = thisLines->begin() + lineID;
         it->setHeaveIn(heaveIn);
     }   
@@ -190,7 +190,7 @@ void Lines::clearLine(int lineID, bool networkLine)
         thisLines = &lines;
     }
     
-    if (thisLines->size() > lineID && lineID >= 0) {
+    if ((int)thisLines->size() > lineID && lineID >= 0) {
         std::vector<Line>::iterator it = thisLines->begin() + lineID;
         it->clearLine();
     }   
@@ -206,7 +206,7 @@ void Lines::removeLine(int lineID, bool networkLine) {
         thisLines = &lines;
     }
     
-    if (thisLines->size() > lineID && lineID >= 0) {
+    if ((int)thisLines->size() > lineID && lineID >= 0) {
         std::vector<Line>::iterator it = thisLines->begin() + lineID;
         it->clearLine();
         thisLines->erase(it);
@@ -216,7 +216,7 @@ void Lines::removeLine(int lineID, bool networkLine) {
 void Lines::setSelectedLine(int lineID) {
     selectedLine = lineID;
 
-    for (int i = 0; i < lines.size(); i++) {
+    for (int i = 0; i < (int)lines.size(); i++) {
         std::vector<Line>::iterator it = lines.begin() + i;
         if (i == selectedLine) {
             it->setSelected(true);
@@ -241,7 +241,7 @@ irr::f32 Lines::getLineStartX(int lineID, bool networkLine)
         thisLines = &lines;
     }
     
-    if (thisLines->size() > lineID && lineID >= 0) {
+    if ((int)thisLines->size() > lineID && lineID >= 0) {
         std::vector<Line>::iterator it = thisLines->begin() + lineID;
         return it->getLineStartX();
     } else {
@@ -259,7 +259,7 @@ irr::f32 Lines::getLineStartY(int lineID, bool networkLine)
         thisLines = &lines;
     }
     
-    if (thisLines->size() > lineID && lineID >= 0) {
+    if ((int)thisLines->size() > lineID && lineID >= 0) {
         std::vector<Line>::iterator it = thisLines->begin() + lineID;
         return it->getLineStartY();
     } else {
@@ -277,7 +277,7 @@ irr::f32 Lines::getLineStartZ(int lineID, bool networkLine)
         thisLines = &lines;
     }
     
-    if (thisLines->size() > lineID && lineID >= 0) {
+    if ((int)thisLines->size() > lineID && lineID >= 0) {
         std::vector<Line>::iterator it = thisLines->begin() + lineID;
         return it->getLineStartZ();
     } else {
@@ -295,7 +295,7 @@ irr::f32 Lines::getLineEndX(int lineID, bool networkLine)
         thisLines = &lines;
     }
     
-    if (thisLines->size() > lineID && lineID >= 0) {
+    if ((int)thisLines->size() > lineID && lineID >= 0) {
         std::vector<Line>::iterator it = thisLines->begin() + lineID;
         return it->getLineEndX();
     } else {
@@ -313,7 +313,7 @@ irr::f32 Lines::getLineEndY(int lineID, bool networkLine)
         thisLines = &lines;
     }
     
-    if (thisLines->size() > lineID && lineID >= 0) {
+    if ((int)thisLines->size() > lineID && lineID >= 0) {
         std::vector<Line>::iterator it = thisLines->begin() + lineID;
         return it->getLineEndY();
     } else {
@@ -331,7 +331,7 @@ irr::f32 Lines::getLineEndZ(int lineID, bool networkLine)
         thisLines = &lines;
     }
     
-    if (thisLines->size() > lineID && lineID >= 0) {
+    if ((int)thisLines->size() > lineID && lineID >= 0) {
         std::vector<Line>::iterator it = thisLines->begin() + lineID;
         return it->getLineEndZ();
     } else {
@@ -349,7 +349,7 @@ int Lines::getLineStartType(int lineID, bool networkLine) //0: Unknown, 1: Own s
         thisLines = &lines;
     }
     
-    if (thisLines->size() > lineID && lineID >= 0) {
+    if ((int)thisLines->size() > lineID && lineID >= 0) {
         std::vector<Line>::iterator it = thisLines->begin() + lineID;
         return it->getLineStartType();
     } else {
@@ -367,7 +367,7 @@ int Lines::getLineEndType(int lineID, bool networkLine) //0: Unknown, 1: Own shi
         thisLines = &lines;
     }
     
-    if (thisLines->size() > lineID && lineID >= 0) {
+    if ((int)thisLines->size() > lineID && lineID >= 0) {
         std::vector<Line>::iterator it = thisLines->begin() + lineID;
         return it->getLineEndType();
     } else {
@@ -385,7 +385,7 @@ int Lines::getLineStartID(int lineID, bool networkLine)
         thisLines = &lines;
     }
     
-    if (thisLines->size() > lineID && lineID >= 0) {
+    if ((int)thisLines->size() > lineID && lineID >= 0) {
         std::vector<Line>::iterator it = thisLines->begin() + lineID;
         return it->getLineStartID();
     } else {
@@ -403,7 +403,7 @@ int Lines::getLineEndID(int lineID, bool networkLine)
         thisLines = &lines;
     }
     
-    if (thisLines->size() > lineID && lineID >= 0) {
+    if ((int)thisLines->size() > lineID && lineID >= 0) {
         std::vector<Line>::iterator it = thisLines->begin() + lineID;
         return it->getLineEndID();
     } else {
@@ -421,7 +421,7 @@ irr::f32 Lines::getLineNominalLength(int lineID, bool networkLine)
         thisLines = &lines;
     }
     
-    if (thisLines->size() > lineID && lineID >= 0) {
+    if ((int)thisLines->size() > lineID && lineID >= 0) {
         std::vector<Line>::iterator it = thisLines->begin() + lineID;
         return it->getLineNominalLength();
     } else {
@@ -438,7 +438,7 @@ void Lines::setLineNominalLength(int lineID, irr::f32 lineNominalLength, bool ne
     } else {
         thisLines = &lines;
     }
-    if (thisLines->size() > lineID && lineID >= 0) {
+    if ((int)thisLines->size() > lineID && lineID >= 0) {
         std::vector<Line>::iterator it = thisLines->begin() + lineID;
         it->setLineNominalLength(lineNominalLength);
     }
@@ -453,7 +453,7 @@ irr::f32 Lines::getLineBreakingTension(int lineID, bool networkLine)
         thisLines = &lines;
     }
     
-    if (thisLines->size() > lineID && lineID >= 0) {
+    if ((int)thisLines->size() > lineID && lineID >= 0) {
         std::vector<Line>::iterator it = thisLines->begin() + lineID;
         return it->getLineBreakingTension();
     } else {
@@ -470,7 +470,7 @@ void Lines::setLineBreakingTension(int lineID, irr::f32 lineBreakingTension, boo
     } else {
         thisLines = &lines;
     }
-    if (thisLines->size() > lineID && lineID >= 0) {
+    if ((int)thisLines->size() > lineID && lineID >= 0) {
         std::vector<Line>::iterator it = thisLines->begin() + lineID;
         it->setLineBreakingTension(lineBreakingTension);
     }
@@ -485,7 +485,7 @@ irr::f32 Lines::getLineBreakingStrain(int lineID, bool networkLine)
         thisLines = &lines;
     }
     
-    if (thisLines->size() > lineID && lineID >= 0) {
+    if ((int)thisLines->size() > lineID && lineID >= 0) {
         std::vector<Line>::iterator it = thisLines->begin() + lineID;
         return it->getLineBreakingStrain();
     } else {
@@ -502,7 +502,7 @@ void Lines::setLineBreakingStrain(int lineID, irr::f32 lineBreakingStrain, bool 
     } else {
         thisLines = &lines;
     }
-    if (thisLines->size() > lineID && lineID >= 0) {
+    if ((int)thisLines->size() > lineID && lineID >= 0) {
         std::vector<Line>::iterator it = thisLines->begin() + lineID;
         it->setLineBreakingStrain(lineBreakingStrain);
     }
@@ -517,7 +517,7 @@ irr::f32 Lines::getLineNominalShipMass(int lineID, bool networkLine)
         thisLines = &lines;
     }
     
-    if (thisLines->size() > lineID && lineID >= 0) {
+    if ((int)thisLines->size() > lineID && lineID >= 0) {
         std::vector<Line>::iterator it = thisLines->begin() + lineID;
         return it->getLineNominalShipMass();
     } else {
@@ -534,7 +534,7 @@ void Lines::setLineNominalShipMass(int lineID, irr::f32 lineNominalShipMass, boo
     } else {
         thisLines = &lines;
     }
-    if (thisLines->size() > lineID && lineID >= 0) {
+    if ((int)thisLines->size() > lineID && lineID >= 0) {
         std::vector<Line>::iterator it = thisLines->begin() + lineID;
         it->setLineNominalShipMass(lineNominalShipMass);
     }

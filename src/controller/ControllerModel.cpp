@@ -163,14 +163,14 @@ ControllerModel::ControllerModel(irr::IrrlichtDevice* device, GUIMain* gui, Netw
     std::cout << "Width m " << terrainXWidth << " Height m " << terrainZWidth << std::endl;
 
     //Calculate ratio required
-    irr::f32 widthToHeight;
+    //irr::f32 widthToHeight = 0;
     if (terrainXWidth>0 &&  terrainZWidth>0) {
-        widthToHeight = terrainXWidth/terrainZWidth;
+      //widthToHeight = terrainXWidth/terrainZWidth;
     } else {
         std::cout << "Zero map width or height. Please check world model." << std::endl;
         exit(EXIT_FAILURE);
     }
-    irr::core::dimension2d<irr::u32> loadedSize = unscaledMap->getDimension();
+    //irr::core::dimension2d<irr::u32> loadedSize = unscaledMap->getDimension();
 
     //Calculate scaling needed
     //irr::u32 widthFromHeight = loadedSize.Height * widthToHeight;
@@ -294,14 +294,14 @@ void ControllerModel::update(const irr::f32& time, const ShipData& ownShipData, 
 
     //Process the AIS data here:
     //Check for new AIS data
-    for (int i=0;i<aisData.size();i++) {
+    for (unsigned int i=0;i<aisData.size();i++) {
         
         //If message type is 1,2 or 3, calculate X and Z position
         
 
         //Check if a record exists for this MMSI. If not, create a new record.
         int aisShipsId = -1;
-        for (int j=0;j<aisShips.size();j++) {
+        for (unsigned int j=0;j<aisShips.size();j++) {
             if (aisShips.at(j).mmsi == aisData.at(i).mmsi) {
                 aisShipsId = j;
             }
@@ -332,7 +332,7 @@ void ControllerModel::update(const irr::f32& time, const ShipData& ownShipData, 
 
             bool sendNetworkUpdate = false;
             int otherShipNumber = 0;
-            for(int j = 0; j < otherShipsData.size(); j++) {
+            for(unsigned int j = 0; j < otherShipsData.size(); j++) {
                 if (otherShipsData.at(j).mmsi == aisShips.at(aisShipsId).mmsi) {
                     sendNetworkUpdate = true;
                     otherShipNumber = j+1; //For the network message the first other ship is 1.

@@ -44,22 +44,22 @@ public:
     void resetOffset(); //Re-centre the map on the own-ship
 
     //Methods used to update the state, called by the event receiver:
-    void setShipPosition(irr::s32 ship, irr::core::vector2df position); //To be called from eventReceiver
-    void updateSelectedShip(irr::s32 index); //To be called from eventReceiver, where index is from the combo box
-    void updateSelectedLeg(irr::s32 index); //To be called from eventReceiver, where index is from the combo box
+    void setShipPosition(irr::u32 ship, irr::core::vector2df position); //To be called from eventReceiver
+    void updateSelectedShip(irr::u32 index); //To be called from eventReceiver, where index is from the combo box
+    void updateSelectedLeg(irr::u32 index); //To be called from eventReceiver, where index is from the combo box
     void setGeneralScenarioData(ScenarioData newData); //To be called from event receiver
     void checkName(); //Check if the scenario name chosen will mean that an existing scenario gets overwritten, and update flag in GeneralData
 
-    void changeLeg(irr::s32 ship, irr::s32 index, irr::f32 legCourse, irr::f32 legSpeed, irr::f32 legDistance); //Change othership (or ownship) course, speed etc.
-    void deleteLeg(irr::s32 ship, irr::s32 index);
-    void addLeg(irr::s32 ship, irr::s32 afterLegNumber, irr::f32 legCourse, irr::f32 legSpeed, irr::f32 legDistance);
-    void setMMSI(irr::s32 ship, int mmsi);
+    void changeLeg(irr::u32 ship, irr::u32 index, irr::f32 legCourse, irr::f32 legSpeed, irr::f32 legDistance); //Change othership (or ownship) course, speed etc.
+    void deleteLeg(irr::u32 ship, irr::u32 index);
+    void addLeg(irr::u32 ship, irr::s32 afterLegNumber, irr::f32 legCourse, irr::f32 legSpeed, irr::f32 legDistance);
+    void setMMSI(irr::u32 ship, int mmsi);
     void addShip(std::string name, irr::core::vector2df position);
-	void deleteShip(irr::s32 ship);
+    void deleteShip(irr::u32 ship);
     void recalculateLegTimes();
 
     void changeOwnShipName(std::string name);
-    void changeOtherShipName(irr::s32 ship, std::string name);
+    void changeOtherShipName(irr::u32 ship, std::string name);
 
     void save();
 

@@ -611,7 +611,7 @@ namespace scene
 				bool failure=false;
 				vertex.Pos.X = fx;
 				
-				if (z < heightMapData.size() && x < heightMapData.at(z).size()) {
+				if (z < (s32)heightMapData.size() && x < (s32)heightMapData.at(z).size()) {
 					vertex.Pos.Y = heightMapData.at(z).at(x);
 				} else {
 					//If outside the range of the input vector, set a low value

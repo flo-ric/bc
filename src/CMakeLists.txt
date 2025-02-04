@@ -97,6 +97,8 @@ set(BC_SOURCES
     BCTerrainTriangleSelector.cpp
 )
 
+add_compile_options(-Wall -Wpedantic)
+
 add_executable(bridgecommand-bc
     ${BC_SOURCES}
 )

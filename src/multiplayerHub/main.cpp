@@ -302,8 +302,8 @@ int main()
     // Add run and pause buttons
     irr::s32 runButtonID = 101;
     irr::s32 pauseButtonID = 102;
-    irr::gui::IGUIButton* runButton = device->getGUIEnvironment()->addButton(irr::core::rect<irr::s32>(0.01*su,0.76*sh,0.49*su,0.99*sh), 0, runButtonID, language.translate("run").c_str());
-    irr::gui::IGUIButton* pauseButton = device->getGUIEnvironment()->addButton(irr::core::rect<irr::s32>(0.51*su,0.76*sh,0.99*su,0.99*sh), 0, pauseButtonID, language.translate("pause").c_str());
+    device->getGUIEnvironment()->addButton(irr::core::rect<irr::s32>(0.01*su,0.76*sh,0.49*su,0.99*sh), 0, runButtonID, language.translate("run").c_str());
+    device->getGUIEnvironment()->addButton(irr::core::rect<irr::s32>(0.51*su,0.76*sh,0.99*su,0.99*sh), 0, pauseButtonID, language.translate("pause").c_str());
 
     // Setup event receiver
     EventReceiver eventReceiver(pauseButtonID, runButtonID, accelerator);
@@ -502,7 +502,7 @@ int main()
                     linesData.setLineDataSize(thisPeer, linesDataString.size());
                     
                     // Update line information
-                    for (int lineID = 0; lineID < linesDataString.size(); lineID++) {
+                    for (irr::u32 lineID = 0; lineID < linesDataString.size(); lineID++) {
                         std::vector<std::string> thisLineData = Utilities::split(linesDataString.at(lineID),',');
                         // Check number of elements for line data line
                         if (thisLineData.size() == 16) {
@@ -531,7 +531,7 @@ int main()
                             } else if (thisStartType == 2) {
                                 // Other ship. Essential to use else if, to avoid accidentally changing own ship again
                                 // Convert from local thisStartID (as used by thisPeer) to the overall list of other ships in the multiplayer scenario
-                                if (thisStartID >= thisPeer) {
+			      if (thisStartID >= (int)thisPeer) {
                                     thisStartID = thisStartID + 1;
                                 }
                             }
@@ -542,7 +542,7 @@ int main()
                             } else if (thisEndType == 2) {
                                 // Other ship. Essential to use else if, to avoid accidentally changing own ship again
                                 // Convert from local thisStartID (as used by thisPeer) to the overall list of other ships in the multiplayer scenario
-                                if (thisEndID >= thisPeer) {
+			      if (thisEndID >= (int)thisPeer) {
                                     thisEndID = thisEndID + 1;
                                 }
                             }

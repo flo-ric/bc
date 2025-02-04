@@ -1,3 +1,4 @@
+add_compile_options(-Wall -Wpedantic)
 
 include_directories(${CMAKE_SOURCE_DIR}/libs/asio/include/)
 

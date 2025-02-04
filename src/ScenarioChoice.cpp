@@ -112,7 +112,7 @@ void ScenarioChoice::chooseScenario(std::string& scenarioName, std::string& host
             if (currentSelection!=descriptionScenario) {
                 //Update the description text
                 description->setText(L"");
-                if (scenarioDescription.size() > currentSelection && currentSelection>=0) {
+                if ((irr::s32)scenarioDescription.size() > currentSelection && currentSelection>=0) {
                     description->setText(irr::core::stringw(scenarioDescription.at(currentSelection).c_str()).c_str());
                 }
                 currentSelection = descriptionScenario;

@@ -374,9 +374,9 @@ std::vector<std::vector<irr::f32>> Terrain::heightMapImageToVector(irr::io::IRea
     
     irr::f32 heightValue;
 
-    for (unsigned int k=0; k<scaledHeight; k++) {
+    for (int k=0; k<scaledHeight; k++) {
         std::vector<irr::f32> heightMapLine;
-        for (unsigned int j=0; j<scaledWidth; j++) {
+        for (int j=0; j<scaledWidth; j++) {
             
             //Pick the pixel to use (very simple scaling, to be replaced with bilinear interpolation)
             irr::f32 pixelX_float = (irr::f32)j * (irr::f32)imageWidth/(irr::f32)scaledWidth;
@@ -411,8 +411,6 @@ std::vector<std::vector<irr::f32>> Terrain::heightMapBinaryToVector(irr::io::IRe
         return heightMapVector;
     }
     
-    irr::f32 heightValue;
-
     for (unsigned int j=0; j<binaryWidth; j++) {
         std::vector<irr::f32> heightMapLine;
         for (unsigned int k=0; k<binaryHeight; k++) {
@@ -491,9 +489,9 @@ std::vector<std::vector<irr::f32>> Terrain::transposeHeightMapVector(std::vector
     irr::u32 inputHeight = inVector.size();
     irr::u32 inputWidth = inVector.at(0).size();
 
-    for (int i = 0; i < inputWidth; i++) {
+    for (unsigned int i = 0; i < inputWidth; i++) {
         std::vector<irr::f32> lineVector;
-        for (int j = 0; j < inputHeight; j++) {
+        for (unsigned int j = 0; j < inputHeight; j++) {
             
             if (j < inVector.size() && i < inVector.at(j).size()) {
                 lineVector.push_back(inVector.at(j).at(i));
@@ -527,9 +525,9 @@ std::vector<std::vector<irr::f32>> Terrain::limitSize(std::vector<std::vector<ir
     irr::u32 outputHeight = std::min(inputHeight, maxSize);
     irr::u32 outputWidth = std::min(inputWidth, maxSize);
 
-    for (int i = 0; i < outputHeight; i++) {
+    for (unsigned int i = 0; i < outputHeight; i++) {
         std::vector<irr::f32> lineVector;
-        for (int j = 0; j < outputWidth; j++) {
+        for (unsigned int j = 0; j < outputWidth; j++) {
             
             //Pick the pixel to use (very simple scaling, to be replaced with bilinear interpolation)
             irr::f32 pixelX_float = (irr::f32)j * (irr::f32)inputWidth/(irr::f32)outputWidth;

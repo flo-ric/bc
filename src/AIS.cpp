@@ -76,8 +76,6 @@ std::vector<irr::u32> AIS::getReadyShips(SimulationModel* model, irr::u32 now) {
 
 std::tuple<std::string, int> AIS::generateClassAReport(SimulationModel* model, irr::u32 ship) {
 
-    bool done = false;
-
     irr::u32 heading = (irr::u32) model->getOtherShipHeading(ship);
     irr::u32 mmsi = model->getOtherShipMMSI(ship);
 
@@ -90,7 +88,7 @@ std::tuple<std::string, int> AIS::generateClassAReport(SimulationModel* model, i
         irr::u32 ships = model->getNumberOfOtherShips();
         while (collision) {
             collision = false;
-            for (int i=0; i < ships; i++) {
+            for (irr::u32 i=0; i < ships; i++) {
                 if (model->getOtherShipMMSI(i) == mmsi) {
                     collision = true;
                     break;
@@ -225,7 +223,7 @@ std::string AIS::bitsToArmoredASCII(std::vector<bool> bits) {
     std::string payload(bits.size() / 6, 0);
     int index = 0;
 
-    for (int i=0; i < bits.size(); i++) {
+    for (irr::u32 i=0; i < bits.size(); i++) {
         payload[index] <<= 1;
         payload[index] |= bits[i];
         counter += 1;

@@ -434,8 +434,8 @@ void GUIMain::load(irr::IrrlichtDevice* device, Lang* language, std::vector<std:
         linesWindowPos.LowerRightCorner -= irr::core::position2d<irr::s32>(0,0.03*sh);
         // Scale lines window to make smaller if possible
         irr::core::dimension2d<irr::u32> sampleDimension = guienv->getSkin()->getFont()->getDimension(L"Example");
-        irr::u32 targetHeight = sampleDimension.Height * 8;
-        irr::u32 targetWidth = sampleDimension.Width * 6;
+        irr::s32 targetHeight = sampleDimension.Height * 8;
+        irr::s32 targetWidth = sampleDimension.Width * 6;
         if (linesWindowPos.getHeight() > targetHeight) {
             linesWindowPos.LowerRightCorner.Y = linesWindowPos.UpperLeftCorner.Y + targetHeight;
         }
@@ -843,7 +843,7 @@ void GUIMain::load(irr::IrrlichtDevice* device, Lang* language, std::vector<std:
 
     irr::core::rect<irr::s32> GUIMain::getSmallRadarRect() const
     {
-	    irr::u32 graphicsWidth3d = su;
+      //irr::u32 graphicsWidth3d = su;
 	    irr::u32 graphicsHeight3d = sh * VIEW_PROPORTION_3D;
         return irr::core::rect<irr::s32>(su-(sh-graphicsHeight3d)+azimuthGUIOffsetR,graphicsHeight3d,su+azimuthGUIOffsetR,sh);
     }
@@ -1337,7 +1337,7 @@ guiTideHeight = guiData->tideHeight;
         arpaText2->clear();
 
         //if (guiCPAs.size() == guiTCPAs.size() && guiCPAs.size() == guiARPAspeeds.size() && guiCPAs.size() == guiARPAheadings.size()) {
-        for (unsigned int i = 0; i < arpaContactStates.size(); i++) {
+        for (irr::s32 i = 0; i < (irr::s32)arpaContactStates.size(); i++) {
 
             //Convert TCPA from decimal minutes into minutes and seconds.
             //TODO: Filter list based on risk?
