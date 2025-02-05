@@ -79,12 +79,12 @@
     <IntDir>$(Configuration)\ed\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>..\..\bin</OutDir>
+    <OutDir>..\..\bin\</OutDir>
     <IntDir>$(Configuration)\ed\</IntDir>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);..\libs\Irrlicht\irrlicht-svn\include;..\libs\asio\include</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>..\..\bin</OutDir>
+    <OutDir>..\..\bin\</OutDir>
     <IntDir>$(Configuration)\ed\</IntDir>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);..\libs\Irrlicht\irrlicht-svn\include;..\libs\asio\include</IncludePath>
   </PropertyGroup>

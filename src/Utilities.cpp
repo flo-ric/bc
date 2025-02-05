@@ -94,9 +94,9 @@ namespace Utilities
 
         signed int result;
         if (numberIn > 0) {
-            result = numberIn + 0.5;
+            result = (signed int)(numberIn + 0.5);
         } else {
-            result = numberIn - 0.5;
+            result = (signed int)(numberIn - 0.5);
         }
         return result;
     }

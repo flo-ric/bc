@@ -31,7 +31,7 @@ SOFTWARE.
 #include <cstdint>
 
 #ifndef M_PI
-#define M_PI 3.14159265358979323846
+#define M_PI 3.14159265358979323846f
 #endif // M_PI
 
 /*
@@ -164,10 +164,10 @@ vector2 vector2::unit() {
 	return vector2(this->x/l, this->y/l);
 }
 
-cFFT::cFFT(unsigned int N) : N(N), reversed(0), T(0), pi2(2 * M_PI) {
+cFFT::cFFT(unsigned int N) : N(N), reversed(0), T(0), pi2(2.0f * M_PI) {
 	c[0] = c[1] = 0;
 
-	log_2_N = log(N)/log(2);
+	log_2_N = (unsigned int)(log(N)/log(2));
 
 	reversed = new unsigned int[N];		// prep bit reversals
 	for (unsigned int i = 0; i < N; i++) reversed[i] = reverse(i);
@@ -255,7 +255,7 @@ complex cOcean::gaussianRandomVariable() {
 }
 
 cOcean::cOcean(const int N, const float A, const vector2 w, const float length) :
-	g(9.81), N(N), Nplus1(N+1), A(A), w(w), length(length),
+	g(9.81f), N(N), Nplus1(N+1), A(A), w(w), length(length),
 	vertices(0), h_tilde(0), h_tilde_slopex(0), h_tilde_slopez(0), h_tilde_dx(0), h_tilde_dz(0), fft(0)
 {
 	h_tilde        = new complex[N*N];
@@ -334,7 +334,7 @@ float cOcean::phillips(int n_prime, int m_prime) {
 	float L         = w_length * w_length / g;
 	float L2        = L * L;
 
-	float damping   = 0.001;
+	float damping   = 0.001f;
 	float l2        = L2 * damping * damping;
 
 	float returnVal =  A * exp(-1.0f / (k_length2 * L2)) / k_length4 * k_dot_w2 * exp(-k_length2 * l2);
@@ -508,7 +508,7 @@ void cOcean::evaluateWavesFFT(float t) {
 		fft->fft(h_tilde_dz, h_tilde_dz, N, n_prime);
 	}
 
-	int sign;
+	float sign;
 	float signs[] = { 1.0f, -1.0f };
 	vector3 n;
 	for (int m_prime = 0; m_prime < N; m_prime++) {

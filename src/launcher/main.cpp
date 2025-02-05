@@ -347,7 +347,7 @@ int main (int argc, char ** argv)
     short bR = bC / 3 * 2 + 1;
 
     short bW = graphicsWidth - (2 * bC); // size ...
-    short bH = 20 * (fontSize / (FONT_SIZE_DEFAULT * 1.0)) + 1;
+    short bH = (short)(20 * (fontSize / (FONT_SIZE_DEFAULT * 1.0)) + 1);
 
     short x1 = bC;                       // location ...
     short x2 = x1 + bW;

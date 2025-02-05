@@ -101,7 +101,7 @@ std::tuple<std::string, int> AIS::generateClassAReport(SimulationModel* model, i
 
     // AIS speed over ground is in 0.1-knot increments, capped to 102.2 knots
     // getOtherShipSpeed returns speed in m/s, multiply by 1.9438445 to get knots
-    irr::u32 speed = std::min<int>((int) 10.0f * MPS_TO_KTS * model->getOtherShipSpeed(ship), 1022);
+    irr::u32 speed = std::min<int>((int)(10.0f * MPS_TO_KTS * model->getOtherShipSpeed(ship)), 1022);
 
     // BC internal coordinate system
     irr::f32 shipLong = model->getOtherShipLong(ship);
@@ -155,7 +155,7 @@ std::tuple<std::string, int> AIS::generateClassAReport(SimulationModel* model, i
 
     // 61-88 longitude in a 28-bit field encoding a signed integer representing a float with a
     // resolution of 0.0001 corresponding to the longitude in minutes
-    std::int32_t longitude = (int) 600000.0f * shipLong;
+    std::int32_t longitude = std::int32_t(600000 * shipLong);
     bool longIsNeg = longitude < 0;
     for (int i=0; i < 28; i++) {
         classAReport[61 + 27 - i] = longitude % 2;
@@ -165,7 +165,7 @@ std::tuple<std::string, int> AIS::generateClassAReport(SimulationModel* model, i
     
     // 89-115 latitude in a 27-bit field encoding a signed integer representing a float with a
     // resolution of 0.0001 corresponding to the latitude in minutes
-    std::int32_t latitude = (int) 600000.0f * shipLat;
+    std::int32_t latitude = (std::int32_t)(600000 * shipLat);
     bool latIsNeg = latitude < 0;
     for (int i=0; i < 27; i++) {
         classAReport[89 + 26 - i] = latitude % 2;
@@ -225,7 +225,7 @@ std::string AIS::bitsToArmoredASCII(std::vector<bool> bits) {
 
     for (irr::u32 i=0; i < bits.size(); i++) {
         payload[index] <<= 1;
-        payload[index] |= bits[i];
+        payload[index] |= (char)bits[i];
         counter += 1;
         
         if (counter % 6 == 0) {

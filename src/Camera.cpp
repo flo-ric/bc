@@ -108,11 +108,11 @@ void Camera::lookDown()
 }
 
 void Camera::setPanSpeed(irr::f32 horizontalPanSpeed){
-    this->horizontalPanSpeed = horizontalPanSpeed;
+    this->horizontalPanSpeed = (irr::s32)horizontalPanSpeed;
 }
 
 void Camera::setVerticalPanSpeed(irr::f32 verticalPanSpeed){
-    this->verticalPanSpeed = verticalPanSpeed;
+    this->verticalPanSpeed = (irr::s32)verticalPanSpeed;
 }
 
 void Camera::setLookUp(irr::f32 angle)
@@ -255,7 +255,7 @@ void Camera::highView(bool highViewRequired)
             previousLookAngle = lookAngle;
             previousLookUpAngle = lookUpAngle;
             lookAngle = 0;
-            lookUpAngle = -89.99; //Almost straight down. Avoid -90 as this gives an odd rotation effect (gymbal lock?)
+            lookUpAngle = -89.99f; //Almost straight down. Avoid -90 as this gives an odd rotation effect (gymbal lock?)
             isHighViewActive = true;
         }
     }

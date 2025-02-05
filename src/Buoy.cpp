@@ -63,7 +63,7 @@ Buoy::Buoy(const std::string& name, const std::string& internalName, const std::
         //Failed to load mesh - load with dummy and continue
         dev->getLogger()->log("Failed to load buoy model:");
         dev->getLogger()->log(buoyFullPath.c_str());
-        buoy = smgr->addCubeSceneNode(0.1);
+        buoy = smgr->addCubeSceneNode(0.1f);
         selector = 0;
     } else {
         buoy = smgr->addMeshSceneNode( buoyMesh, 0, -1, location );
@@ -93,11 +93,11 @@ Buoy::Buoy(const std::string& name, const std::string& internalName, const std::
 
     //store length and RCS information for radar etc
     length = buoy->getBoundingBox().getExtent().Z;
-    height = buoy->getBoundingBox().getExtent().Y * 0.75 + heightCorrection; //Assume 3/4 of the mesh is above water
+    height = buoy->getBoundingBox().getExtent().Y * 0.75f + heightCorrection; //Assume 3/4 of the mesh is above water
 
     rcs = radarCrossSection; //Value given to constructor by Buoys.
     if (rcs == 0.0) {
-        rcs = 0.005*std::pow(length,3); //Default RCS if not set, base radar cross section on length^3 (following RCS table Ship_RCS_table.pdf)
+        rcs = (irr::f32)(0.005f*std::pow(length,3)); //Default RCS if not set, base radar cross section on length^3 (following RCS table Ship_RCS_table.pdf)
     }
 
     this->floating = floating; //Does the buoy respond to the water
@@ -181,10 +181,10 @@ RadarData Buoy::getRadarData(irr::core::vector3df scannerPosition) const
     radarData.rcs=getRCS();
 
     //Calculate angles and ranges to each end of the contact
-    irr::f32 relAngle1 = Angles::normaliseAngle(irr::core::RADTODEG*std::atan2( radarData.relX + 0.5*radarData.length*std::sin(irr::core::DEGTORAD*radarData.heading), radarData.relZ + 0.5*radarData.length*std::cos(irr::core::DEGTORAD*radarData.heading) ));
-    irr::f32 relAngle2 = Angles::normaliseAngle(irr::core::RADTODEG*std::atan2( radarData.relX - 0.5*radarData.length*std::sin(irr::core::DEGTORAD*radarData.heading), radarData.relZ - 0.5*radarData.length*std::cos(irr::core::DEGTORAD*radarData.heading) ));
-    irr::f32 range1 = std::sqrt(std::pow(radarData.relX + 0.5*radarData.length*std::sin(irr::core::DEGTORAD*radarData.heading),2) + std::pow(radarData.relZ + 0.5*radarData.length*std::cos(irr::core::DEGTORAD*radarData.heading),2));
-    irr::f32 range2 = std::sqrt(std::pow(radarData.relX - 0.5*radarData.length*std::sin(irr::core::DEGTORAD*radarData.heading),2) + std::pow(radarData.relZ - 0.5*radarData.length*std::cos(irr::core::DEGTORAD*radarData.heading),2));
+    irr::f32 relAngle1 = Angles::normaliseAngle((irr::f32)(irr::core::RADTODEG*std::atan2( radarData.relX + 0.5*radarData.length*std::sin(irr::core::DEGTORAD*radarData.heading), radarData.relZ + 0.5*radarData.length*std::cos(irr::core::DEGTORAD*radarData.heading))));
+    irr::f32 relAngle2 = Angles::normaliseAngle((irr::f32)(irr::core::RADTODEG*std::atan2( radarData.relX - 0.5*radarData.length*std::sin(irr::core::DEGTORAD*radarData.heading), radarData.relZ - 0.5*radarData.length*std::cos(irr::core::DEGTORAD*radarData.heading))));
+    irr::f32 range1 = (irr::f32)(std::sqrt(std::pow(radarData.relX + 0.5*radarData.length*std::sin(irr::core::DEGTORAD*radarData.heading),2) + std::pow(radarData.relZ + 0.5*radarData.length*std::cos(irr::core::DEGTORAD*radarData.heading),2)));
+    irr::f32 range2 = (irr::f32)(std::sqrt(std::pow(radarData.relX - 0.5*radarData.length*std::sin(irr::core::DEGTORAD*radarData.heading),2) + std::pow(radarData.relZ - 0.5*radarData.length*std::cos(irr::core::DEGTORAD*radarData.heading),2)));
     radarData.minRange=std::min(range1,range2);
     radarData.maxRange=std::max(range1,range2);
     radarData.minAngle=std::min(relAngle1,relAngle2);

@@ -109,8 +109,8 @@ namespace scene
 		}
 		u32 regularWidth=originalWidth-1;
 		u32 regularHeight=originalHeight-1;
-		regularWidth = pow(2.0,ceil(log2(regularWidth))) + 1;
-		regularHeight = pow(2.0,ceil(log2(regularHeight))) + 1;
+		regularWidth = (u32)pow(2.0,ceil(log2(regularWidth))) + 1;
+		regularHeight = (u32)pow(2.0,ceil(log2(regularHeight))) + 1;
 		//Make square
 		if (regularWidth > regularHeight) {
 			regularHeight = regularWidth;
@@ -526,12 +526,12 @@ namespace scene
 		}
 
 		//Find if the input vector is square and 2^n+1 in size, if not, find the next biggest size to fit
-		u32 inputWidth = heightMapData.at(0).size();
-		u32 inputHeight = heightMapData.size();
+		u32 inputWidth= (u32)heightMapData.at(0).size();
+		u32 inputHeight = (u32)heightMapData.size();
 		s32 scaledWidth = (irr::s32)inputWidth-1;
         s32 scaledHeight = (irr::s32)inputHeight-1;
-        scaledWidth = pow(2.0,ceil(log2(scaledWidth))) + 1;
-        scaledHeight = pow(2.0,ceil(log2(scaledHeight))) + 1;
+        scaledWidth = (s32)pow(2.0,ceil(log2(scaledWidth))) + 1;
+        scaledHeight = (s32)pow(2.0,ceil(log2(scaledHeight))) + 1;
         //find largest to make square
         TerrainData.Size = std::max(scaledWidth,scaledHeight);
 

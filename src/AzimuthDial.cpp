@@ -227,7 +227,7 @@ void AzimuthDial::draw()
 
     core::vector2d<s32> absoluteCentre(centre.X + offsetX, centre.Y + offsetY);
 
-	Environment->getVideoDriver()->draw2DPolygon(absoluteCentre,radius,video::SColor(skinAlpha,0,0,0),30);
+	Environment->getVideoDriver()->draw2DPolygon(absoluteCentre,(irr::f32)radius,video::SColor(skinAlpha,0,0,0),30);
 
 	SliderRect = AbsoluteRect;
 
@@ -235,8 +235,8 @@ void AzimuthDial::draw()
 	{
 		//Draw from centre
 		core::vector2d<s32> endPoint;
-		endPoint.X = absoluteCentre.X + DrawRad*sin(DrawAngle);
-		endPoint.Y = absoluteCentre.Y - DrawRad*cos(DrawAngle);
+		endPoint.X = (s32)(absoluteCentre.X + DrawRad*sin(DrawAngle));
+		endPoint.Y = (s32)(absoluteCentre.Y - DrawRad*cos(DrawAngle));
 
 		if (DrawRad > 0) {
             // Normal
@@ -269,9 +269,9 @@ s32 AzimuthDial::getPosFromMousePos(const core::position2di &pos) const
     s32 relX = pos.X - centre.X - offsetX;
     s32 relY = pos.Y - centre.Y - offsetY;
 
-    f32 angle = atan2(relX,-1.0*relY)*core::RADTODEG;
+    f32 angle = (f32)(atan2(relX,-1.0*relY)*core::RADTODEG);
     while (angle<0) {angle+=360;} //As atan2 gives -pi to +pi
-    f32 proportion = angle/360.0;
+    f32 proportion = (f32)(angle/360.0);
     return (s32) (proportion * range()) + Min;
 }
 
@@ -285,7 +285,7 @@ s32 AzimuthDial::getMagFromMousePos(const core::position2di &pos) const
     s32 relX = pos.X - centre.X - offsetX;
     s32 relY = pos.Y - centre.Y - offsetY;
 
-    f32 pixelRad = pow(pow(relX, 2.0) + pow(relY, 2.0), 0.5);
+    f32 pixelRad = (f32)(pow(pow(relX, 2.0) + pow(relY, 2.0), 0.5));
     f32 proportion = pixelRad/radius;
     return (s32) (proportion * 100); // Hardcoded as 0-100
 }
@@ -318,7 +318,7 @@ s32 AzimuthDial::getMag() const
 void AzimuthDial::setMag(s32 mag)
 {
 	Mag = core::s32_clamp(mag, -100, 100);
-	DrawRad = radius * ((f32) Mag / 100.0);
+	DrawRad = (f32)(radius * ((f32) Mag / 100.0));
 }
 
 
@@ -326,6 +326,7 @@ void AzimuthDial::setMag(s32 mag)
 s32 AzimuthDial::getSmallStep() const
 {
 	return SmallStep;
+
 }
 
 

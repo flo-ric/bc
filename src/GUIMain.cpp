@@ -81,8 +81,8 @@ void GUIMain::load(irr::IrrlichtDevice* device, Lang* language, std::vector<std:
         // GUI position modifications if in azimuth drive mode
         if (azimuthDrive) {
             //azimuthGUIOffset = 0.05*su;
-            azimuthGUIOffsetL = -0.02*su;
-            azimuthGUIOffsetR = -0.07*su;
+            azimuthGUIOffsetL = (irr::s32)-0.02*su;
+            azimuthGUIOffsetR = (irr::s32)-0.07*su;
         } else {
             azimuthGUIOffsetL = 0;
             azimuthGUIOffsetR = 0;
@@ -96,24 +96,24 @@ void GUIMain::load(irr::IrrlichtDevice* device, Lang* language, std::vector<std:
         radarLarge = false;
         //Find available 4:3 rectangle to fit in area for large radar display
         irr::s32 availableWidth;
-        irr::s32 availableHeight = (0.95-0.01)*sh;
+        irr::s32 availableHeight = (irr::s32)(0.95-0.01)*sh;
         if (azimuthDrive) {
             // leave 0.9*su on both sides
-            availableWidth  = (0.91-0.09)*su;
+            availableWidth  = (irr::s32)(0.91-0.09)*su;
         } else {
             // leave 0.9*su on left, 0.01*su on right
-            availableWidth  = (0.99-0.09)*su;
+            availableWidth  = (irr::s32)(0.99-0.09)*su;
         }
         if (availableWidth/(float)availableHeight > 4.0/3.0) {
             // Wider than 4:3
-            irr::s32 activeWidth = availableHeight * 4.0/3.0;
+            irr::s32 activeWidth = availableHeight * 4/3;
             irr::s32 activeHeight = availableHeight;
-            radarLargeRect = irr::core::rect<irr::s32>(0.09*su + (availableWidth-activeWidth)/2, 0.01*sh, 0.09*su + activeWidth + (availableWidth-activeWidth)/2, 0.01+activeHeight);
+            radarLargeRect = irr::core::rect<irr::s32>((irr::s32)(0.09*su + (availableWidth-activeWidth)/2), (irr::s32)(0.01*sh), (irr::s32)(0.09*su + activeWidth + (availableWidth-activeWidth)/2), (irr::s32)(0.01+activeHeight));
         } else {
             // 4:3 or narrower
             irr::s32 activeWidth = availableWidth;
-            irr::s32 activeHeight = availableWidth * 3.0/4.0;
-            radarLargeRect = irr::core::rect<irr::s32>(0.09*su, 0.01*sh+(availableHeight-activeHeight)/2, 0.09*su + activeWidth, 0.01+activeHeight+(availableHeight-activeHeight)/2);
+            irr::s32 activeHeight = availableWidth * 3/4;
+            radarLargeRect = irr::core::rect<irr::s32>((irr::s32)(0.09*su), (irr::s32)(0.01*sh+(availableHeight-activeHeight)/2), (irr::s32)(0.09*su + activeWidth), (irr::s32)(0.01+activeHeight+(availableHeight-activeHeight)/2));
         }
         //For brevity, store large radar window width and top left corner.
         irr::s32 radarSu = radarLargeRect.getWidth();
@@ -122,17 +122,17 @@ void GUIMain::load(irr::IrrlichtDevice* device, Lang* language, std::vector<std:
         largeRadarScreenRadius = (radarLargeRect.LowerRightCorner.Y-radarTL.Y)/2;
         largeRadarScreenCentreX = radarTL.X + largeRadarScreenRadius;
         largeRadarScreenCentreY = (radarLargeRect.LowerRightCorner.Y+radarTL.Y)/2;
-        largeRadarScreenRadius*=0.95; //Make display slightly smaller, keeping the centre in the same place
+        largeRadarScreenRadius = (irr::s32)(largeRadarScreenRadius*0.95); //Make display slightly smaller, keeping the centre in the same place
 
-        smallRadarScreenCentreX = su-0.2*sh+azimuthGUIOffsetR;
-        smallRadarScreenCentreY = 0.8*sh;
-        smallRadarScreenRadius=0.2*sh;
+        smallRadarScreenCentreX = su- (irr::s32)(0.2*sh+azimuthGUIOffsetR);
+        smallRadarScreenCentreY = (irr::s32)(0.8*sh);
+        smallRadarScreenRadius= (irr::s32)(0.2*sh);
 
         //gui - add scroll bars for speed and heading control directly
-        hdgScrollbar = new irr::gui::OutlineScrollBar(false,guienv,guienv->getRootGUIElement(),GUI_ID_HEADING_SCROLL_BAR,irr::core::rect<irr::s32>(0.01*su, 0.61*sh, 0.04*su, 0.99*sh));
+        hdgScrollbar = new irr::gui::OutlineScrollBar(false,guienv,guienv->getRootGUIElement(),GUI_ID_HEADING_SCROLL_BAR,irr::core::rect<irr::s32>((irr::s32)(0.01*su), (irr::s32)(0.61*sh), (irr::s32)(0.04*su), (irr::s32)(0.99*sh)));
         hdgScrollbar->setMax(360);
-        spdScrollbar = new irr::gui::OutlineScrollBar(false,guienv,guienv->getRootGUIElement(),GUI_ID_SPEED_SCROLL_BAR,irr::core::rect<irr::s32>(0.05*su, 0.61*sh, 0.08*su, 0.99*sh));
-        spdScrollbar->setMax(20.f*1852.f/3600.f); //20 knots in m/s
+        spdScrollbar = new irr::gui::OutlineScrollBar(false,guienv,guienv->getRootGUIElement(),GUI_ID_SPEED_SCROLL_BAR,irr::core::rect<irr::s32>((irr::s32)(0.05*su), (irr::s32)(0.61*sh), (irr::s32)(0.08*su), (irr::s32)(0.99*sh)));
+        spdScrollbar->setMax(20*1852/3600); //20 knots in m/s
         //Hide speed/heading bars normally
         hdgScrollbar->setVisible(false);
         spdScrollbar->setVisible(false);
@@ -154,13 +154,13 @@ void GUIMain::load(irr::IrrlichtDevice* device, Lang* language, std::vector<std:
         if (hasBowThruster) {
             irr::f32 verticalScreenPos;
             if (hasSternThruster) {
-                verticalScreenPos = 0.99-2*0.04;
+                verticalScreenPos = 0.99f-2.f*0.04f;
             } else {
-                verticalScreenPos = 0.99-1*0.04;
+                verticalScreenPos = 0.99f-1.f*0.04f;
             }
 
 // DEE bowthruster position
-            bowThrusterScrollbar = new irr::gui::OutlineScrollBar(true,guienv,guienv->getRootGUIElement(),GUI_ID_BOWTHRUSTER_SCROLL_BAR,irr::core::rect<irr::s32>(0.01*su, verticalScreenPos*sh, 0.08*su, (verticalScreenPos+0.04)*sh),engineTics,centreTic);
+            bowThrusterScrollbar = new irr::gui::OutlineScrollBar(true,guienv,guienv->getRootGUIElement(),GUI_ID_BOWTHRUSTER_SCROLL_BAR,irr::core::rect<irr::s32>((irr::s32)(0.01*su), (irr::s32)(verticalScreenPos*sh), (irr::s32)(0.08*su), (irr::s32)((verticalScreenPos+0.04)*sh)),engineTics,centreTic);
             bowThrusterScrollbar->setMax(100);
             bowThrusterScrollbar->setMin(-100);
             bowThrusterScrollbar->setPos(0);
@@ -170,7 +170,7 @@ void GUIMain::load(irr::IrrlichtDevice* device, Lang* language, std::vector<std:
         }
 
         if (hasSternThruster) {
-            irr::f32 verticalScreenPos = 0.99-1*0.04;
+            irr::f32 verticalScreenPos = 0.99f-1.f*0.04f;
             sternThrusterScrollbar = new irr::gui::OutlineScrollBar(true,guienv,guienv->getRootGUIElement(),GUI_ID_STERNTHRUSTER_SCROLL_BAR,irr::core::rect<irr::s32>(0.01*su, verticalScreenPos*sh, 0.08*su, (verticalScreenPos+0.04)*sh),engineTics,centreTic);
             sternThrusterScrollbar->setMax(100);
             sternThrusterScrollbar->setMin(-100);

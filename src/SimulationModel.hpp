@@ -27,7 +27,7 @@
 //Forward declarations
 class ScenarioData;
 class GUIMain;
-class GUIData;
+struct GUIData;
 class Sound;
 
 #include "Terrain.hpp"

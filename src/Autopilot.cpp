@@ -72,12 +72,12 @@ bool Autopilot::receiveAPB(APB sentence)
         if (0 <= timeUntilOvershoot && timeUntilOvershoot < 15) {
             // linear scale from no dampening at 15s to steering into the
             // opposite direction at less than 2.0
-            dampening = (1.0 / 13.0) * timeUntilOvershoot - (2.0 / 13.0);
+            dampening = (1.0f / 13.0f) * timeUntilOvershoot - (2.0f / 13.0f);
         }
     }
 
     // set wheel to val between -30.0 (>=60 deg L) and 30.0 (>=60 deg R) (setWheel clamps vals)
-    irr::f32 wheel = (relativeBearing / 60.0) * 30.0;
+    irr::f32 wheel = (relativeBearing / 60.0f) * 30.0f;
 
     if (model->isAzimuthDrive()) {
         // Special case for azimuth drive, as the azimuth angle to steer is opposite, and 
@@ -126,7 +126,7 @@ bool Autopilot::receiveRMB(RMB sentence)
     irr::f32 throttle = 1.0;
     if (currentLegLen < 150) {
         // very short leg, navigate cautiously
-        throttle = 0.15;
+        throttle = 0.15f;
     } else if (currentLegLen < 900) {
         throttle = currentLegLen / 900;
     } else {
@@ -138,9 +138,9 @@ bool Autopilot::receiveRMB(RMB sentence)
     if (currentLegLen == 0) {
         return true;
     }
-    irr::f32 leg_progress = 1.0 - ((sentence.range_to_dest * M_IN_NM) / currentLegLen);
+    irr::f32 leg_progress = 1.0f - ((sentence.range_to_dest * M_IN_NM) / currentLegLen);
     if (leg_progress > 0.75) {
-        throttle = std::max(0.1, throttle * (-3.6 * leg_progress + 3.7));
+        throttle = std::max(0.1f, throttle * (-3.6f * leg_progress + 3.7f));
     }
     model->setPortEngine(throttle);
     model->setStbdEngine(throttle);

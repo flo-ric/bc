@@ -175,7 +175,7 @@ RadarData Buoys::getRadarData(irr::u32 number, irr::core::vector3df scannerPosit
 
 irr::u32 Buoys::getNumber() const
 {
-    return buoys.size();
+    return (irr::u32)buoys.size();
 }
 
 irr::core::vector3df Buoys::getPosition(int number) const
