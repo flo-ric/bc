@@ -95,19 +95,18 @@ namespace scene
         int idSeaState;
         bool firstRun;
         bool IsOpenGL;//Our constants set callback isn't limited to D3D9
-		irr::u32 disableShaders;
-		bool withReflection;
         irr::video::IVideoDriver* driver; //Here so we can save a call during the execution
 
         irr::scene::ICameraSceneNode* _camera; //Local camera for reflections
         irr::video::ITexture* _reflectionMap;
 
-        irr::u32 segments;
-
         //f32 addWave(const core::vector3df &source, f32 time) const;
 		f32 lightLevel;
 		f32 seaState;
-		f32 tileWidth;
+		irr::u32 disableShaders;
+		bool withReflection;
+        irr::u32 segments;
+	  f32 tileWidth;
 		//f32 scaleFactorVertical;
 		IMesh* mesh;
 		IMesh* flatMesh;

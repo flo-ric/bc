@@ -40,7 +40,7 @@ inline irr::f32 parseNmeaLat(std::string latitude, char direction)
         irr::f32 hours = std::stof(latitude.substr(0, 2));
         irr::f32 minutes = std::stof(latitude.substr(2, 5));
         return (irr::f32)(mod * (hours + (minutes / 60.0)));
-    } catch (const std::invalid_argument e) 
+    } catch (const std::invalid_argument& e) 
     {
         return INVALID_LAT;
     }
@@ -60,7 +60,7 @@ inline irr::f32 parseNmeaLong(std::string longitude, char direction)
         irr::f32 hours = std::stof(longitude.substr(0, 3));
         irr::f32 minutes = std::stof(longitude.substr(3, 5));
         return irr::f32(mod * (hours + (minutes / 60.0)));
-    } catch (const std::invalid_argument e)
+    } catch (const std::invalid_argument& e)
     {
         return INVALID_LAT;
     }

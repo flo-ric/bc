@@ -20,7 +20,10 @@ namespace gui
 OutlineScrollBar::OutlineScrollBar(bool horizontal, IGUIEnvironment* environment,
 				IGUIElement* parent, s32 id,
 				core::rect<s32> rectangle, core::array<s32> shortTicMarks, core::array<s32> longTicMarks, bool secondaryIndicator, core::array<s32> ticIndicators)
-	: IGUIScrollBar(environment, parent, id, rectangle)
+    	: IGUIScrollBar(environment, parent, id, rectangle), Dragging(false), Horizontal(horizontal),
+	Pos(0), DrawPos(0),
+	DrawHeight(0), Min(0), Max(100), SmallStep(10), LargeStep(50), DesiredPos(0),
+	shortTicMarks(shortTicMarks), longTicMarks(longTicMarks), Secondary(secondaryIndicator), ticIndicators(ticIndicators)
 {
 	#ifdef _DEBUG
 	setDebugName("OutlineScrollBar");
@@ -30,21 +33,6 @@ OutlineScrollBar::OutlineScrollBar(bool horizontal, IGUIEnvironment* environment
 
 	//setNotClipped(noclip);
 
-	Dragging=false;
-	Horizontal=horizontal;
-	Pos=0;
-	DrawPos=0;
-	DrawHeight=0;
-	Min=0;
-	Max=100;
-	SmallStep=10;
-	LargeStep=50;
-	DesiredPos=0;
-	shortTicMarks=shortTicMarks;
-	longTicMarks=longTicMarks;
-	Secondary=secondaryIndicator;
-	ticIndicators=ticIndicators;
-	
 	// this element can be tabbed to
 	setTabStop(true);
 	setTabOrder(-1);

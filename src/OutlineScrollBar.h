@@ -24,7 +24,7 @@ namespace gui
 		//! destructor
 		virtual ~OutlineScrollBar();
 
-		//! called if an event happened.
+		//! called if an event happened.bool horizontal, 
 		virtual bool OnEvent(const SEvent& event);
 
 		//! draws the element and its children
@@ -95,21 +95,22 @@ namespace gui
 		s32 Pos;
 		s32 DrawPos;
 		s32 DrawHeight;
-		bool Secondary;
-		s32 PosSecondary;
-		s32 DrawPosSecondary;
-		s32 DrawHeightSecondary;
 		s32 Min;
 		s32 Max;
-		s32 SmallStep;
+	        s32 SmallStep;
 		s32 LargeStep;
-		s32 DesiredPos;
+	        s32 DesiredPos;
+	        core::array<s32> shortTicMarks;
+		core::array<s32> longTicMarks;	
+	        bool Secondary;
+                core::array<s32> ticIndicators;
+	        s32 PosSecondary;
+		s32 DrawPosSecondary;
+		s32 DrawHeightSecondary;
 		//u32 LastChange;
 		video::SColor CurrentIconColor;
 
-		core::array<s32> shortTicMarks;
-		core::array<s32> longTicMarks;
-		core::array<s32> ticIndicators;
+		
 
 		f32 range () const { return (f32) ( Max - Min ); }
 	};
