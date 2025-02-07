@@ -48,14 +48,15 @@ class LegData {
 
 class OtherShipData {
     public:
+    OtherShipData():mmsi(0), initialLong(0), initialLat(0), initialX(0), initialZ(0) {}
+
     std::string shipName;
     irr::u32 mmsi;
-    irr::f32 initialLong, initialLat;
-    irr::f32 initialX, initialZ; // initialX and initialZ only used for scenario editor
+    irr::f32 initialLong;
+    irr::f32    initialLat;
+    irr::f32 initialX;
+    irr::f32 initialZ; // initialX and initialZ only used for scenario editor
     std::vector<LegData> legs;
-
-    OtherShipData():initialLong(0), initialLat(0), initialX(0), initialZ(0){}
-
     std::string serialise(bool withSpaces);
     void deserialise(std::string data);
 };

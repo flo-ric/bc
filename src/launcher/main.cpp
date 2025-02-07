@@ -7,6 +7,7 @@
 #pragma comment(linker, "/subsystem:windows /ENTRY:mainCRTStartup")
 #endif
 
+
 #include "irrlicht.h"
 #include <iostream>
 #include <thread>
@@ -308,14 +309,14 @@ int main (int argc, char ** argv)
     int fontSize = FONT_SIZE_DEFAULT;
     float fontScale = IniFile::iniFileTof32(iniFilename, "font_scale");
     if (fontScale > 1) {
-        fontSize = (int)(fontSize * fontScale + 0.5);
+        fontSize = (int)(fontSize * (int)fontScale + 0.5);
     } else {
 	    fontScale = 1.0;
     }
 
-    irr::u32 graphicsWidth = fontSize * 16;
-    irr::u32 graphicsHeight = fontSize * 34;
-    irr::u32 graphicsDepth = 32;
+    irr::u32 graphicsWidth = (irr::u32)fontSize * 16u;
+    irr::u32 graphicsHeight = (irr::u32)fontSize * 34u;
+    irr::u32 graphicsDepth = 32u;
     bool fullScreen = false;
 
     irr::IrrlichtDevice* device = irr::createDevice(irr::video::EDT_OPENGL, irr::core::dimension2d<irr::u32>(graphicsWidth,graphicsHeight),graphicsDepth,fullScreen,false,false,0);
@@ -343,10 +344,10 @@ int main (int argc, char ** argv)
 
     //Add launcher buttons with layout in viewport due to scaling
 
-    short bC = graphicsWidth / 20;       // padding ...
+    short bC = (irr::s16)graphicsWidth / 20;       // padding ...
     short bR = bC / 3 * 2 + 1;
 
-    short bW = graphicsWidth - (2 * bC); // size ...
+    short bW = (irr::s16)graphicsWidth - (2 * bC); // size ...
     short bH = (short)(20 * (fontSize / (FONT_SIZE_DEFAULT * 1.0)) + 1);
 
     short x1 = bC;                       // location ...

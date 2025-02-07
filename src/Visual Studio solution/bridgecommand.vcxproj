@@ -86,7 +86,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>..\..\bin\</OutDir>
     <IntDir>$(Configuration)\launch\</IntDir>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);..\libs\Irrlicht\irrlicht-svn\include;..\libs\asio\include</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);..\libs\asio\include</IncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);..\libs\Irrlicht\irrlicht-svn\include;</ExternalIncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -107,11 +108,15 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);ASIO_STANDALONE;ASIO_HAS_STD_THREAD;ASIO_HAS_STD_ADDRESSOF;ASIO_HAS_STD_ARRAY;ASIO_HAS_CSTDINT;ASIO_HAS_STD_SHARED_PTR;ASIO_HAS_STD_TYPE_TRAITS;_WIN32_WINNT=0x0501</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <DisableSpecificWarnings>
+      </DisableSpecificWarnings>
+      <AdditionalOptions>/external:W0 /external:anglebrackets %(AdditionalOptions)</AdditionalOptions>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>..\libs\Irrlicht\irrlicht-svn\lib\Win64-visualstudio</AdditionalLibraryDirectories>
