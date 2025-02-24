@@ -8,8 +8,7 @@
 #include "comstatus.h"
 
 #define MAX_RETRY_COUNTER (10)
-#define MAX_CLIENT_CONNEXION (4)
-#define MAX_RECEIVE_BUFFER (8192)
+#define MAX_CLIENT_CONNEXION (8)
 
 typedef enum{
   MASTER=0x0A,
@@ -34,9 +33,9 @@ class Com
   
  private:
 
-  int ClientConnect(ENetPeer** aPeer, unsigned int aData);
+  int ClientConnect(ENetPeer** aPeer, unsigned char aData);
   int ClientDisconnect(ENetPeer** aPeer);
-  int ClientMsg(const unsigned char *aData);  
+  int ClientMsg(const char *aData, size_t aDataSize);  
   void RouteMsg(void);
   void SendMsg(eTarget aTarget);
   
@@ -49,6 +48,7 @@ class Com
   /*Client*/
   ENetPacket* mPacket;
   ENetPeer* mPeerClient[MAX_CLIENT_CONNEXION];
+  unsigned char mTypeClient[MAX_CLIENT_CONNEXION];
   unsigned char mClientCounter;
 
   /*Flag Broadcast*/

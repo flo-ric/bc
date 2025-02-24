@@ -977,8 +977,10 @@ int main(int argc, char ** argv)
 	    scenarioData.deserialise(scnStr);
 	  }
     }
-    std::string serialisedScenarioData = scenarioData.serialise(false);
+    //std::string serialisedScenarioData = scenarioData.serialise(false);
 
+    loadingMessage->remove(); loadingMessage = 0;
+ 
     SimulationModel model(device, 
                           smgr, 
                           &guiMain, 
@@ -986,7 +988,6 @@ int main(int argc, char ** argv)
                           scenarioData, 
                           modelParameters);
 
-    loadingMessage->remove(); loadingMessage = 0;
     
     //Note: We could use this serialised format as a scenario import/export format or for online distribution
     
