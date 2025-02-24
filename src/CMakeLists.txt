@@ -64,12 +64,13 @@ set(BC_SOURCES
     Line.cpp
     Lines.cpp
     ManOverboard.cpp
-    Message.cpp	
     MovingWater.cpp
     MyEventReceiver.cpp
     NMEA.cpp
     NavLight.cpp
     Network.cpp
+    NetworkPrimary.cpp
+    NetworkSecondary.cpp
     NumberToImage.cpp
     OtherShip.cpp
     OtherShips.cpp
@@ -88,7 +89,6 @@ set(BC_SOURCES
     StartupEventReceiver.cpp
     Terrain.cpp
     Tide.cpp
-    Update.cpp	
     Utilities.cpp
     VRInterface.cpp
     ExitMessage.cpp

@@ -46,6 +46,8 @@ private:
 
     bool networkRequested;
 
+    ENetHost* client; //One client
+    ENetEvent event;
 
     std::string generateSendString(); //Prepare the normal data message to send
     std::string generateSendStringShort(); //Prepare the own ship only data message to send

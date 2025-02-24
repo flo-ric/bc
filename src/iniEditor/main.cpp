@@ -299,7 +299,7 @@ int main (int argc, char ** argv)
         std::string line;
         while ( std::getline (file,line) )
         {
-            Utilities::trim(line);
+            line = Utilities::trim(line);
 
             if (findCharOccurrences(line,"[") == 1 && findCharOccurrences(line,"]") == 1 ) {
                 //A section heading
@@ -326,8 +326,7 @@ int main (int argc, char ** argv)
                 if (splitLine.size() == 2) {
                     IniFileEntry thisEntry;
                     thisEntry.settingName = splitLine.at(0);
-                    thisEntry.settingValue = splitLine.at(1);
-		    Utilities::trim(thisEntry.settingValue, "\"");
+                    thisEntry.settingValue = Utilities::trim(splitLine.at(1),"\"");
                     //check if a '_DESC' setting is available
                     thisEntry.description = IniFile::iniFileToString(iniFilename,thisEntry.settingName+"_DESC");
 
@@ -352,7 +351,7 @@ int main (int argc, char ** argv)
 		std::string currentTabName = "[General]";
 		while ( std::getline (globalFile,line) )
 		{
-			Utilities::trim(line);
+			line = Utilities::trim(line);
 			if (findCharOccurrences(line,"[") == 1 && findCharOccurrences(line,"]") == 1 ) {
 				//A section heading
 				currentTabName=line;
@@ -362,8 +361,7 @@ int main (int argc, char ** argv)
 				if (splitLine.size() == 2) {
 					IniFileEntry thisEntry;
 					thisEntry.settingName = splitLine.at(0);
-					thisEntry.settingValue = splitLine.at(1);
-					Utilities::trim(thisEntry.settingValue,"\"");
+					thisEntry.settingValue = Utilities::trim(splitLine.at(1),"\"");
 					//check if a '_DESC' setting is available
 					thisEntry.description = IniFile::iniFileToString(globalIniFilename,thisEntry.settingName+"_DESC");
 					//Check if this exists in the main iniFileStructure

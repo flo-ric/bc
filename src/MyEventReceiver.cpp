@@ -17,6 +17,7 @@
 #include "MyEventReceiver.hpp"
 
 #include <string>
+
 #include "GUIMain.hpp"
 #include "SimulationModel.hpp"
 #include "Lines.hpp"
@@ -24,7 +25,6 @@
 #include "AzimuthDial.h"
 #include "VRInterface.hpp"
 #include "Constants.hpp"
-#include "Message.hpp"
 
 // using namespace irr;
 
@@ -416,8 +416,8 @@ bool MyEventReceiver::OnEvent(const irr::SEvent &event)
         {
             if (id == GUIMain::GUI_ID_CLOSE_BOX)
             {
-	      std::string shut = Message::ShutDown();
-	      net->SendMessage(shut);
+	      
+	      net->shutdownAllSecondaries();
 	      device->closeDevice(); // Confirm shutdown.
             }
         }

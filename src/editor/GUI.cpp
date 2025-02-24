@@ -820,7 +820,7 @@ std::string GUIMain::getScenarioName() const {
     replace(scenarioNameString.begin(), scenarioNameString.end(),'<',' ');
     replace(scenarioNameString.begin(), scenarioNameString.end(),'>',' ');
 
-    Utilities::trim(scenarioNameString);
+    scenarioNameString = Utilities::trim(scenarioNameString);
 
     return scenarioNameString;
 }
