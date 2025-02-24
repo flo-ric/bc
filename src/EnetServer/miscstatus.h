@@ -1,0 +1,31 @@
+#ifndef MISCSTATUS_H
+#define MISCSTATUS_H
+
+typedef enum{
+
+  E_SERVER_DISCONNECTED=0x44,
+  E_SERVER_WAITING_CONNEXION,
+  E_SERVER_ONLINE
+  
+}eServState;
+
+typedef enum{
+
+  E_MSG_TO_MC=0x55,
+  E_MSG_TO_MASTER,
+  E_MSG_TO_SLAVE,
+  E_MSG_TO_UNKNOW_HOST=0x88
+  
+}eMsgDest;
+
+typedef enum{
+
+  E_MSG_FROM_MC=0x66,
+  E_MSG_FROM_MASTER,
+  E_MSG_FROM_SLAVE,
+  E_MSG_FROM_UNKNOW_HOST=0x99
+  
+}eMsgSrc;
+
+
+#endif
