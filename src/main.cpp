@@ -1090,12 +1090,14 @@ int main(int argc, char ** argv)
 
 	sound.StartSound();
 
+	Update::UpdateNetwork(&model, &network, mode);
+	
     //main loop
     while(device->run())
       {
         { IPROF("Network");
 
-	  Update::UpdateNetwork(&model, &network, mode);
+
 	    
 	  if (true == bExtraNet) {
             //extraNetwork.update();

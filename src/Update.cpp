@@ -1,3 +1,4 @@
+#include <thread>
 #include "Update.hpp"
 
 Update::Update()
@@ -8,7 +9,7 @@ Update::~Update()
 {    
 }
 
-void Update::UpdateNetwork(SimulationModel* aModel, Network* aNet, OperatingMode::Mode aMode)
+static void TaskLaunchNet(SimulationModel* aModel, Network* aNet, OperatingMode::Mode aMode)
 {
   eCmdMsg msgType;
   void* dataCmd = NULL;
@@ -44,5 +45,17 @@ void Update::UpdateNetwork(SimulationModel* aModel, Network* aNet, OperatingMode
 	  std::string msgKeepAliveShort = outMsg.KeepAliveShort();      
 	  aNet->SendMessage(msgKeepAliveShort);
 	}  */  
-    } 
+    }
+}
+
+
+
+
+void Update::UpdateNetwork(SimulationModel* aModel, Network* aNet, OperatingMode::Mode aMode)
+{
+  std::cout << "Creating thread :: Launch Enet Network" << std::endl;
+  std::thread taskNet(TaskLaunchNet, aModel, aNet, aMode);
+
+  taskNet.detach();
+ 
 }	  
