@@ -48,7 +48,7 @@ void Fsm::Run(void)
 	  }
 	case E_SERVER_ONLINE:
 	  {
-	    timeout = 1;
+	    timeout = 10;
 	    if(retEvent > 0)
 	      watchdog++;
 	    else if(retEvent < 0)
