@@ -82,7 +82,7 @@ int Com::InitCom(void)
   return ret;
 }
 
-int Com::ClientConnect(ENetPeer** aPeer, unsigned char aData)
+int Com::ClientConnect(ENetPeer** aPeer, unsigned int aData)
 {
   bool isConnected = false;
   char ipAddr[16] = {0};
@@ -111,7 +111,7 @@ int Com::ClientConnect(ENetPeer** aPeer, unsigned char aData)
 	  mTypeClient[mClientCounter] = aData;
      	  mPeerClient[mClientCounter] = *aPeer;
 	  enet_address_get_host_ip(&mPeerClient[mClientCounter]->address, ipAddr, 16);
-	  std::cout << "Client :" << ipAddr << ":" << mPeerClient[mClientCounter]->address.port << " connected" << std::endl;
+	  std::cout << "Client :" << ipAddr << ":" << mPeerClient[mClientCounter]->address.port << " connected - type : " << mTypeClient[mClientCounter] << std::endl;
 	  mClientCounter++;
 	  ret = 0;
 	}
@@ -212,7 +212,7 @@ void Com::SendMsg(eTarget aTarget)
 	    }
 	}
     }
-  enet_host_flush (mServer);
+  //enet_host_flush (mServer);
 }
 
 int Com::WaitEvent(unsigned short aTimeout)
@@ -223,7 +223,7 @@ int Com::WaitEvent(unsigned short aTimeout)
   
   if(0 < retEvent)
     {
-      //std::cout << "-- Event received : " << mEvent.type << " --"  << std::endl;
+      //std::cout << "-- Event received : " << mEvent.type << " - "<< mEvent.data << " --"  << std::endl;
       
       switch(mEvent.type)
 	{
@@ -235,7 +235,7 @@ int Com::WaitEvent(unsigned short aTimeout)
 	  }
 	case ENET_EVENT_TYPE_CONNECT:
 	  {
-	    ret = ClientConnect(&mEvent.peer, (unsigned char)mEvent.data);
+	    ret = ClientConnect(&mEvent.peer, mEvent.data);
 	    break;
 	  }
 	case ENET_EVENT_TYPE_DISCONNECT:
