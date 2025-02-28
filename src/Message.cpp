@@ -573,8 +573,6 @@ eCmdMsg Message::Parse(const char *aData, size_t aDataSize, void** aCmdData)
   std::string message = inRawData;
   unsigned int idMessage = 0;
 
-  std::cout << "Message parse : " << inRawData << std::endl;
-
   /*Map Controller message*/
   if(inRawData.substr(0,2).compare(tParseHeader[0].header)==0)
     {
