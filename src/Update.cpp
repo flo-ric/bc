@@ -16,10 +16,6 @@ void Update::UpdateNetwork(SimulationModel* aModel, Network* aNet, OperatingMode
 	Message inMsg(aModel), outMsg(aModel);
 	unsigned int timeout = 0;
 
-	if (OperatingMode::Normal == aMode)
-		timeout = 10;
-	else
-		timeout = 1;
 
 		aNet->WaitMessage(inMsg, msgType, &dataCmd, timeout);
 		aModel->updateFromNetwork(msgType, dataCmd);
