@@ -969,7 +969,7 @@ int main(int argc, char ** argv)
 
 	while(device->run() && msgType != E_CMD_MESSAGE_SCENARIO)
 	  {
-	    network.WaitMessage(inMsg, msgType, &dataScn);
+	    network.WaitMessage(inMsg, msgType, &dataScn, 1000);
 	  }
 	if(dataScn != NULL)
 	  {
@@ -1090,7 +1090,6 @@ int main(int argc, char ** argv)
 
 	sound.StartSound();
 
-	Update::UpdateNetwork(&model, &network, mode);
 	
     //main loop
     while(device->run())
@@ -1098,6 +1097,7 @@ int main(int argc, char ** argv)
         { IPROF("Network");
 
 
+        Update::UpdateNetwork(&model, &network, mode);
 	    
 	  if (true == bExtraNet) {
             //extraNetwork.update();

@@ -35,7 +35,7 @@ public:
   Network();
   ~Network();
   int Connect(std::string aAddr = "localhost", unsigned int aPort = DEFAULT_PORT, OperatingMode::Mode aMode = OperatingMode::Normal);
-  void WaitMessage(Message& aInMessage, eCmdMsg& aMsgType, void** aCmdData);
+  void WaitMessage(Message& aInMessage, eCmdMsg& aMsgType, void** aCmdData, unsigned int aTimeout);
   int SendMessage(std::string& aMsg, bool aIsReliable=false);
 
 private:
