@@ -17,6 +17,7 @@ static void TaskNetwork(SimulationModel* aModel, Network* aNet, OperatingMode::M
 
   while(true)
     {
+      msgType= E_CMD_MESSAGE_UNKNOWN;
       aNet->WaitMessage(inMsg, msgType, &dataCmd);
       aModel->updateFromNetwork(msgType, dataCmd);	  
 
