@@ -86,7 +86,6 @@ void Network::WaitMessage(Message& aInMessage, eCmdMsg& aMsgType, void** aCmdDat
     {
       if(ENET_EVENT_TYPE_RECEIVE == event.type)
 	{
-          std::cout << "waitmessage : " << (char*)event.packet->data << std::endl;
 	  aMsgType = aInMessage.Parse((char*)event.packet->data, event.packet->dataLength, aCmdData);
 	  enet_packet_destroy(event.packet);
         }
