@@ -203,8 +203,6 @@ sShipInf Message::GetInfosOwnShip(std::vector<std::string>& aOwnShipData)
 	shipInfos.speed = Utilities::lexical_cast<float>(aOwnShipData.at(6))/MPS_TO_KTS;
       else
 	shipInfos.speed = Utilities::lexical_cast<float>(aOwnShipData.at(4))/MPS_TO_KTS;
-
-      std::cout << "Speed : " << shipInfos.speed << std::endl;
     }
   return shipInfos;
 }

@@ -199,7 +199,7 @@ void Com::RouteMsg(void)
 
 void Com::SendMsg(eTarget aTarget)
 {
-  mPacket = enet_packet_create(mEvent.packet->data, mEvent.packet->dataLength + 1, 1);
+  mPacket = enet_packet_create(mEvent.packet->data, mEvent.packet->dataLength, 0);
 
   for(unsigned char i=0; i<mClientCounter; i++)
     {
@@ -212,7 +212,7 @@ void Com::SendMsg(eTarget aTarget)
 	    }
 	}
     }
-  //enet_host_flush (mServer);
+  enet_host_flush (mServer);
 }
 
 int Com::WaitEvent(unsigned short aTimeout)
