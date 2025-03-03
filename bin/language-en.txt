@@ -6,7 +6,7 @@ This file must be saved with default (ANSI) encoding on Windows, and UTF-8 encod
 ok="OK"
 scnChoose="Please choose a scenario:"
 secondary="Use as secondary display"
-secondaryWait="Waiting for connection. This computer's hostname and port is:\n"
+secondaryWait="Waiting for connection...\n Connected to server : "
 moveMessage="Please move this message box to the monitor where Bridge Command should run, and click OK"
 multiplayer="Multiplayer mode"
 hostname="Optional: Hostname for controller/secondary display.\nLeave blank if not needed to improve speed."

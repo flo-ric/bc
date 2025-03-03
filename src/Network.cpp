@@ -109,3 +109,15 @@ int Network::SendMessage(std::string& aMsg, bool aIsReliable)
     }
   return ret;
 }
+
+std::string Network::GetIPServer(void)
+{
+  char ipAddr[16] ={0};
+  std::string retStr;
+  
+  enet_address_get_host_ip(&mServAddr, ipAddr, 16);
+  retStr = ipAddr;
+  retStr += ":" + mServAddr.port;
+
+  return retStr;
+}

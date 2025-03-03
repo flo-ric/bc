@@ -956,8 +956,9 @@ int main(int argc, char ** argv)
       }
     else
       {
-        irr::core::stringw portMessage = language.translate("secondaryWait");
-        loadingMessage->setText(portMessage.c_str());
+        irr::core::stringw waitingMessage = language.translate("secondaryWait");
+	waitingMessage += network.GetIPServer().c_str();
+        loadingMessage->setText(waitingMessage.c_str());
         device->run();
         driver->beginScene(irr::video::ECBF_COLOR|irr::video::ECBF_DEPTH, irr::video::SColor(0,200,200,200));
         device->getGUIEnvironment()->drawAll();
