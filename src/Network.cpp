@@ -118,7 +118,7 @@ std::string Network::GetIPServer(void)
   enet_address_get_host_ip(&mServAddr, ipAddr, 16);
   retStr = ipAddr;
   retStr.append(":");
-  retStr.append(Utilities::lexical_cast<std::string>mServAddr.port);
+  retStr.append(Utilities::lexical_cast<std::string>(mServAddr.port));
 
   return retStr;
 }
