@@ -12,9 +12,12 @@
 *.pdb
 *.iobj
 *.ipdb
+*.exe
+*.sh
 Thumbs.db
 build/
 bin/
+bin/Scripts/
 src/libs/Irrlicht/irrlicht-svn/lib/Linux/
 src/libs/Irrlicht/irrlicht-svn/source/Irrlicht/src/
 src/libs/Irrlicht/irrlicht-svn/source/Irrlicht/tmp/
