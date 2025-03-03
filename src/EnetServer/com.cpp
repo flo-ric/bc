@@ -126,7 +126,6 @@ int Com::ClientConnect(ENetPeer** aPeer, unsigned int aData)
 int Com::ClientDisconnect(ENetPeer** aPeer)
 {
   char ipAddr[16] ={0};
-  int ret = -1;
   
   std::cout << "-- Disconnect Event received --"  << std::endl;
 
@@ -142,18 +141,17 @@ int Com::ClientDisconnect(ENetPeer** aPeer)
 
 	      mPeerClient[i] = {0};
 	      mClientCounter--;
-	      ret = 0;
-	    }
-	  else
-	    {
-	      enet_address_get_host_ip(&(*aPeer)->address, ipAddr, 16);
-	      std::cout << "Client :" << ipAddr << "never been connected" << std::endl;
-	      ret = 1;
+	      return  0;
 	    }
 	}
+      else
+	return -1;
     }
-  
-  return ret;
+
+  enet_address_get_host_ip(&(*aPeer)->address, ipAddr, 16);
+  std::cout << "Client :" << ipAddr << "never been connected" << std::endl;
+    
+  return 1;
 }
 
 int Com::ClientMsg(const char *aData, size_t aDataSize)
