@@ -50,6 +50,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h> // For GetSystemMetrics
 #include <direct.h> //for windows _mkdir
+#include <shellapi.h>
 #else
 #include <sys/stat.h>
 #endif // _WIN32
@@ -409,6 +410,25 @@ int main(int argc, char ** argv)
         std::cout << "Using Ini file >" << iniFilename << "<" << std::endl;
     }
 
+    std::string scriptToExe = IniFile::iniFileToString(iniFilename, "script_start_BC");
+
+    if (!scriptToExe.empty())
+      {
+#ifdef _WIN32
+	std::string winScript = "./Scripts/win/" + scriptToExe;
+        ShellExecute(NULL, NULL, winScript.c_str(), "-M", NULL, SW_SHOW);
+#else
+#ifdef __APPLE__
+	std::string macOsScript = "./Scripts/macOs/" + scriptToExe;
+	execl(macOsScript.c_str(), "script start", "-M", NULL);
+#else
+	std::string linuxScript = "./Scripts/linux/" + scriptToExe + ".sh";
+	system(linuxScript.c_str());
+#endif
+#endif
+      }
+
+    
     #ifdef __arm__
     if (IniFile::iniFileTou32(iniFilename, "PA_ALSA_PLUGHW") == 1) {
         setenv("PA_ALSA_PLUGHW", "1", true);
@@ -830,7 +850,7 @@ int main(int argc, char ** argv)
     creditsText.append(getCredits());
     irr::gui::IGUIStaticText* loadingMessage = device->getGUIEnvironment()->addStaticText(creditsText.c_str(), irr::core::rect<irr::s32>(0.05*su,0.05*sh,0.95*su,0.95*sh),true);
     device->run();
-    driver->beginScene(irr::video::ECBF_COLOR|irr::video::ECBF_DEPTH, irr::video::SColor(0,200,200,200));
+    driver->beginScene(true, true, irr::video::SColor(0,255,255,255));
     device->getGUIEnvironment()->drawAll();
     driver->endScene();
 
@@ -1213,6 +1233,24 @@ int main(int argc, char ** argv)
     }
 
     device->drop();
+
+    scriptToExe = IniFile::iniFileToString(iniFilename, "script_stop_BC");
+
+    if (!scriptToExe.empty())
+      {
+#ifdef _WIN32
+	std::string winScript = "./Scripts/win/" + scriptToExe;
+        ShellExecute(NULL, NULL, winScript.c_str(), "-M", NULL, SW_SHOW);
+#else
+#ifdef __APPLE__
+	std::string macOsScript = "./Scripts/macOs/" + scriptToExe;
+	execl(macOsScript.c_str(), "script stop", "-M", NULL);
+#else
+	std::string linuxScript = "./Scripts/linux/" + scriptToExe + ".sh";
+	system(linuxScript.c_str());
+#endif
+#endif
+      }
 
     //Save log messages out
 	//Note that stderr has also been redirected to this file on windows, so it will contain anything from cerr, as well as these log messages

@@ -6,7 +6,7 @@ This file must be saved with default (ANSI) encoding on Windows, and UTF-8 encod
 ok="OK"
 scnChoose="Veuillez choisir un scénario :"
 secondary="Utiliser comme affichage secondaire"
-secondaryWait="En attente de connexion. Le nom et le port de l'ordinateur sont :\n"
+secondaryWait="En attente de connexion...\nConnecté au serveur : "
 moveMessage="Veuillez déplacer cette fenêtre vers le moniteur où Bridge Command doit être lancé et cliquez sur OK."
 multiplayer="Mode multijoueurs"
 hostname="Optionnel: nom d'hôte pour contrôleur/moniteur secondaire.\nLaissez vide si inutile pour améliorer la vitesse."
