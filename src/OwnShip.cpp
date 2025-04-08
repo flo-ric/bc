@@ -2379,6 +2379,11 @@ irr::f32 OwnShip::getSpeedThroughWater() const
     return speedThroughWater; // m/s
 }
 
+irr::f32 OwnShip::getLateralSpeed() const
+{
+    return lateralSpd; 
+}
+
 irr::f32 OwnShip::getDepth() const
 {
     return -1 * terrain->getHeight(xPos, zPos) + getPosition().Y;
